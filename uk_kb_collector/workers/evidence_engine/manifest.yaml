@@ -1,0 +1,6 @@
+api_version: 1
+code: MOUUK-0026
+slug: evidence_engine
+name: "Evidence & Provenance"
+expertise: "UK public procurement reasoning and knowledge concerning Evidence & Provenance"
+entrypoint: worker:create_worker

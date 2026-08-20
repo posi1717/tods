@@ -1,0 +1,6 @@
+api_version: 1
+code: MOUUK-0022
+slug: data_protection
+name: "Data Protection & Information Governance"
+expertise: "UK public procurement reasoning and knowledge concerning Data Protection & Information Governance"
+entrypoint: worker:create_worker

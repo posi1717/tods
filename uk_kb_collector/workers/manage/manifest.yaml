@@ -1,0 +1,6 @@
+api_version: 1
+code: MOUUK-0010
+slug: manage
+name: "Manage"
+expertise: "UK public procurement reasoning and knowledge concerning Manage"
+entrypoint: worker:create_worker

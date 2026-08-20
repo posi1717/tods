@@ -1,0 +1,6 @@
+api_version: 1
+code: MOUUK-0025
+slug: relationship_engine
+name: "Cross-Governance Relationships"
+expertise: "UK public procurement reasoning and knowledge concerning Cross-Governance Relationships"
+entrypoint: worker:create_worker

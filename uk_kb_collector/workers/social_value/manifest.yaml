@@ -1,0 +1,6 @@
+api_version: 1
+code: MOUUK-0011
+slug: social_value
+name: "Social Value"
+expertise: "UK public procurement reasoning and knowledge concerning Social Value"
+entrypoint: worker:create_worker

@@ -1,0 +1,4 @@
+sources:
+  - id: placeholder
+    type: official
+    status: scaffold_only

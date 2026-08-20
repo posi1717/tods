@@ -1,0 +1,6 @@
+api_version: 1
+code: MOUUK-0017
+slug: dynamic_markets
+name: "Dynamic Markets"
+expertise: "UK public procurement reasoning and knowledge concerning Dynamic Markets"
+entrypoint: worker:create_worker

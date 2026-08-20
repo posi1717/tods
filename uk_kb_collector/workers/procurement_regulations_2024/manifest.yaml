@@ -1,0 +1,6 @@
+api_version: 1
+code: MOUUK-0002
+slug: procurement_regulations_2024
+name: "Procurement Regulations 2024"
+expertise: "UK public procurement reasoning and knowledge concerning Procurement Regulations 2024"
+entrypoint: worker:create_worker

@@ -1,0 +1,180 @@
+version: 1
+
+collector:
+  destination: "~/Desktop/UK-KB-PUBLIC Sector"
+  interval_hours: 2
+  dry_run: true
+  max_pdf_bytes: 150000000
+  connect_timeout_seconds: 15
+  read_timeout_seconds: 60
+  max_retries: 4
+  backoff_factor_seconds: 1.5
+  min_delay_per_domain_seconds: 1.5
+  user_agent: "UK-KB-PUBLIC-Sector-Collector/1.0 (personal research/knowledge-base collector; contact: local-user)"
+  verify_tls: true
+  max_pdf_probe_pages: 4
+  max_relevance_chars: 20000
+  max_discovery_pages_per_source: 40
+
+compliance:
+  respect_terms_of_use: true
+  terms_approved_hosts:
+    - "gov.uk"
+    - "*.gov.uk"
+    - "legislation.gov.uk"
+    - "*.legislation.gov.uk"
+
+allowed_domains:
+  - "gov.uk"
+  - "*.gov.uk"
+  - "legislation.gov.uk"
+  - "*.legislation.gov.uk"
+
+sources:
+  - name: "Procurement Act 2023 guidance collection"
+    url: "https://www.gov.uk/government/collections/procurement-act-2023-guidance-documents"
+    category_hint: "statutory_guidance"
+  - name: "Procurement Policy Notes collection"
+    url: "https://www.gov.uk/government/collections/procurement-policy-notes"
+    category_hint: "procurement_policy_notes"
+  - name: "Public procurement policy"
+    url: "https://www.gov.uk/guidance/public-sector-procurement-policy"
+    category_hint: "government_policy"
+  - name: "Transforming Public Procurement"
+    url: "https://www.gov.uk/government/collections/transforming-public-procurement"
+    category_hint: "government_policy"
+  - name: "Procurement Act 2023"
+    url: "https://www.legislation.gov.uk/ukpga/2023/54/contents"
+    category_hint: "legislation"
+    reference_hint: "Procurement Act 2023"
+  - name: "Procurement Regulations 2024"
+    url: "https://www.legislation.gov.uk/uksi/2024/692/contents"
+    category_hint: "procurement_regulations_2024"
+    reference_hint: "Procurement Regulations 2024"
+  - name: "Public Contracts Regulations 2015"
+    url: "https://www.legislation.gov.uk/uksi/2015/102/contents"
+    category_hint: "legacy_regulations"
+    reference_hint: "Public Contracts Regulations 2015"
+  - name: "Utilities Contracts Regulations 2016"
+    url: "https://www.legislation.gov.uk/uksi/2016/274/contents"
+    category_hint: "legacy_regulations"
+    reference_hint: "Utilities Contracts Regulations 2016"
+  - name: "Concession Contracts Regulations 2016"
+    url: "https://www.legislation.gov.uk/uksi/2016/273/contents"
+    category_hint: "legacy_regulations"
+    reference_hint: "Concession Contracts Regulations 2016"
+  - name: "Defence and Security Public Contracts Regulations 2011"
+    url: "https://www.legislation.gov.uk/uksi/2011/1848/contents"
+    category_hint: "legacy_regulations"
+    reference_hint: "Defence and Security Public Contracts Regulations 2011"
+  - name: "Public Services (Social Value) Act 2012"
+    url: "https://www.legislation.gov.uk/ukpga/2012/3/contents"
+    category_hint: "other_legislation"
+    reference_hint: "Public Services (Social Value) Act 2012"
+
+keywords:
+  include:
+    - procurement
+    - procurement act
+    - procurement regulations
+    - public procurement
+    - public sector procurement
+    - contract management
+    - framework
+    - dynamic market
+    - exclusion
+    - debarment
+    - supplier selection
+    - transparency
+    - prompt payment
+    - modern slavery
+    - carbon reduction
+    - social value
+    - open book contract management
+    - national security
+    - threshold
+    - concessions
+    - utilities contracts
+    - defence and security
+    - public contracts regulations
+    - explanatory notes
+    - statutory guidance
+    - procurement policy note
+    - PPN
+    - national procurement policy statement
+    - NPPS
+    - sourcing playbook
+    - construction playbook
+    - outsourcing playbook
+    - consultancy playbook
+    - model documents
+    - template
+
+  exclude:
+    - "press release"
+    - "news story"
+    - "speech"
+    - "opinion"
+    - "blog"
+    - "job advert"
+    - "vacancy"
+    - "newsletter"
+
+  tags:
+    social_value:
+      - "social value"
+      - "Public Services (Social Value) Act"
+    security:
+      - "national security"
+      - "defence and security"
+      - "security classification"
+    supplier_selection:
+      - "conditions of participation"
+      - "supplier selection"
+      - "standard selection questionnaire"
+    exclusion_debarment:
+      - "exclusion"
+      - "debarment"
+    transparency:
+      - "transparency"
+      - "publication of information"
+      - "Contracts Finder"
+      - "central digital platform"
+    frameworks_dynamic_markets:
+      - "framework"
+      - "dynamic market"
+    contract_management:
+      - "contract management"
+      - "contract performance"
+      - "key performance indicators"
+      - "contract modification"
+      - "payment compliance"
+      - "contract termination"
+    prompt_payment:
+      - "prompt payment"
+      - "payment"
+      - "electronic invoicing"
+    carbon:
+      - "carbon reduction"
+      - "carbon"
+      - "net zero"
+    SME_VCSE:
+      - "SME"
+      - "VCSE"
+      - "small business"
+
+categories:
+  legislation:
+    - "Procurement Act 2023"
+  procurement_regulations_2024:
+    - "Procurement Regulations 2024"
+  legacy_regulations:
+    - "Public Contracts Regulations 2015"
+    - "Utilities Contracts Regulations 2016"
+    - "Concession Contracts Regulations 2016"
+    - "Defence and Security Public Contracts Regulations 2011"
+  other_legislation:
+    - "Public Services (Social Value) Act 2012"
+
+notes:
+  legal_notice: "Knowledge-base collector only; not legal advice. Official legal/policy materials may be amended or replaced. Verify the current version on the official source before use."

@@ -1,0 +1,6 @@
+code: MOUUK-0021
+name: "Security and National Security"
+slug: security_and_national_security
+layer: plugin
+kind: reasoning
+expertise: "Security and National Security specialist governance reasoning"

@@ -1,0 +1,6 @@
+api_version: 1
+code: MOUUK-0014
+slug: exclusion_debarment
+name: "Exclusion & Debarment"
+expertise: "UK public procurement reasoning and knowledge concerning Exclusion & Debarment"
+entrypoint: worker:create_worker

@@ -1,0 +1,6 @@
+api_version: 1
+code: MOUUK-0001
+slug: procurement_act_2023
+name: "Procurement Act 2023"
+expertise: "UK public procurement reasoning and knowledge concerning Procurement Act 2023"
+entrypoint: worker:create_worker

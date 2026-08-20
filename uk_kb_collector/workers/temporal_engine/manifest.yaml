@@ -1,0 +1,6 @@
+api_version: 1
+code: MOUUK-0024
+slug: temporal_engine
+name: "Temporal & Version Intelligence"
+expertise: "UK public procurement reasoning and knowledge concerning Temporal & Version Intelligence"
+entrypoint: worker:create_worker

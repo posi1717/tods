@@ -1,0 +1,6 @@
+api_version: 1
+code: MOUUK-0003
+slug: legacy_procurement_regulations
+name: "Legacy Procurement Regulations"
+expertise: "UK public procurement reasoning and knowledge concerning Legacy Procurement Regulations"
+entrypoint: worker:create_worker

@@ -1,0 +1,1 @@
+"""Permanent MOUUK governance modules."""

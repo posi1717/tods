@@ -1,0 +1,6 @@
+api_version: 1
+code: MOUUK-0004
+slug: other_relevant_legislation
+name: "Other Relevant Legislation"
+expertise: "UK public procurement reasoning and knowledge concerning Other Relevant Legislation"
+entrypoint: worker:create_worker

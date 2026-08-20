@@ -1,0 +1,6 @@
+api_version: 1
+code: MOUUK-0020
+slug: modern_slavery
+name: "Modern Slavery & Responsible Supply Chain"
+expertise: "UK public procurement reasoning and knowledge concerning Modern Slavery & Responsible Supply Chain"
+entrypoint: worker:create_worker

@@ -1,0 +1,6 @@
+api_version: 1
+code: MOUUK-0021
+slug: national_security
+name: "Security & National Security"
+expertise: "UK public procurement reasoning and knowledge concerning Security & National Security"
+entrypoint: worker:create_worker

@@ -1,0 +1,6 @@
+api_version: 1
+code: MOUUK-0018
+slug: contract_management
+name: "Contract Management & Open Book"
+expertise: "UK public procurement reasoning and knowledge concerning Contract Management & Open Book"
+entrypoint: worker:create_worker

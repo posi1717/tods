@@ -1,0 +1,6 @@
+api_version: 1
+code: MOUUK-0005
+slug: ppn
+name: "Procurement Policy Notes (PPN)"
+expertise: "UK public procurement reasoning and knowledge concerning Procurement Policy Notes (PPN)"
+entrypoint: worker:create_worker

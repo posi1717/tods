@@ -1,0 +1,6 @@
+code: MOUUK-0026
+name: "Evidence and Provenance"
+slug: evidence_and_provenance
+layer: plugin
+kind: reasoning
+expertise: "Evidence and Provenance specialist governance reasoning"

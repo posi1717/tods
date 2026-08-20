@@ -1,0 +1,133 @@
+version: 2
+modules:
+- code: MOUUK-0001
+  slug: procurement_act_2023
+  name: Procurement Act 2023
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0002
+  slug: procurement_regulations_2024
+  name: Procurement Regulations 2024
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0003
+  slug: legacy_procurement_regulations
+  name: Legacy Procurement Regulations
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0004
+  slug: other_relevant_legislation
+  name: Other Relevant Legislation
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0005
+  slug: ppn
+  name: Procurement Policy Notes
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0006
+  slug: npps
+  name: National Procurement Policy Statement
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0007
+  slug: plan
+  name: Plan
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0008
+  slug: define
+  name: Define
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0009
+  slug: procure
+  name: Procure
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0010
+  slug: manage
+  name: Manage
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0011
+  slug: social_value
+  name: Social Value
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0012
+  slug: toms
+  name: TOMs
+  layer: plugin
+  kind: reasoning
+  parent: MOUUK-0011
+- code: MOUUK-0013
+  slug: supplier_selection
+  name: Supplier Selection
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0014
+  slug: exclusion_debarment
+  name: Exclusion and Debarment
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0015
+  slug: transparency
+  name: Transparency and Procurement Data
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0016
+  slug: frameworks
+  name: Framework Agreements
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0017
+  slug: dynamic_markets
+  name: Dynamic Markets
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0018
+  slug: contract_management
+  name: Contract Management and Open Book
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0019
+  slug: carbon
+  name: Sustainability and Carbon
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0020
+  slug: modern_slavery
+  name: Modern Slavery and Responsible Supply Chain
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0021
+  slug: national_security
+  name: Security and National Security
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0022
+  slug: data_protection
+  name: Data Protection and Information Governance
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0023
+  slug: authority_engine
+  name: Source Authority
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0024
+  slug: temporal_engine
+  name: Temporal and Version Intelligence
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0025
+  slug: relationship_engine
+  name: Cross-Governance Relationships
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0026
+  slug: evidence_engine
+  name: Evidence and Provenance
+  layer: plugin
+  kind: reasoning

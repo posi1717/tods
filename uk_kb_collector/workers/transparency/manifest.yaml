@@ -1,0 +1,6 @@
+api_version: 1
+code: MOUUK-0015
+slug: transparency
+name: "Transparency & Procurement Data"
+expertise: "UK public procurement reasoning and knowledge concerning Transparency & Procurement Data"
+entrypoint: worker:create_worker

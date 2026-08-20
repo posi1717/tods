@@ -1,0 +1,6 @@
+code: MOUUK-0013
+name: "Supplier Selection"
+slug: supplier_selection
+layer: plugin
+kind: reasoning
+expertise: "Supplier Selection specialist governance reasoning"

@@ -1,0 +1,6 @@
+api_version: 1
+code: MOUUK-0009
+slug: procure
+name: "Procure"
+expertise: "UK public procurement reasoning and knowledge concerning Procure"
+entrypoint: worker:create_worker

@@ -1,0 +1,6 @@
+api_version: 1
+code: MOUUK-0023
+slug: authority_engine
+name: "Source Authority"
+expertise: "UK public procurement reasoning and knowledge concerning Source Authority"
+entrypoint: worker:create_worker

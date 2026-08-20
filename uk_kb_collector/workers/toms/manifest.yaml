@@ -1,0 +1,6 @@
+api_version: 1
+code: MOUUK-0012
+slug: toms
+name: "TOMs"
+expertise: "UK public procurement reasoning and knowledge concerning TOMs"
+entrypoint: worker:create_worker

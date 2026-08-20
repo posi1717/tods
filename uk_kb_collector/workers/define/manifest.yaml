@@ -1,0 +1,6 @@
+api_version: 1
+code: MOUUK-0008
+slug: define
+name: "Define"
+expertise: "UK public procurement reasoning and knowledge concerning Define"
+entrypoint: worker:create_worker

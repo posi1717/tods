@@ -1,0 +1,6 @@
+api_version: 1
+code: MOUUK-0007
+slug: plan
+name: "Plan"
+expertise: "UK public procurement reasoning and knowledge concerning Plan"
+entrypoint: worker:create_worker

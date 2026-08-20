@@ -1,0 +1,6 @@
+api_version: 1
+code: MOUUK-0016
+slug: frameworks
+name: "Framework Agreements"
+expertise: "UK public procurement reasoning and knowledge concerning Framework Agreements"
+entrypoint: worker:create_worker

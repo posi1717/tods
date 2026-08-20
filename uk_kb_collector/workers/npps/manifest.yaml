@@ -1,0 +1,6 @@
+api_version: 1
+code: MOUUK-0006
+slug: npps
+name: "National Procurement Policy Statement (NPPS)"
+expertise: "UK public procurement reasoning and knowledge concerning National Procurement Policy Statement (NPPS)"
+entrypoint: worker:create_worker

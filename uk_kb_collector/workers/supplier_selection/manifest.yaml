@@ -1,0 +1,6 @@
+api_version: 1
+code: MOUUK-0013
+slug: supplier_selection
+name: "Supplier Selection"
+expertise: "UK public procurement reasoning and knowledge concerning Supplier Selection"
+entrypoint: worker:create_worker

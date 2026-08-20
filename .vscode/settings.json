@@ -1,0 +1,4 @@
+{
+    "doracodelens.pythonPath": "/opt/homebrew/bin/python3",
+    "window.title": "${dirty}${activeEditorShort}${separator}${rootName}${separator}${profileName}${separator}${appName}${separator}[Branch: main]"
+}
