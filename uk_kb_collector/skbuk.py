@@ -57,7 +57,7 @@ def _metadata(record: DocumentRecord, relative_pdf: str, modules: tuple[str, ...
 
 
 def sync_records(root: Path, records: list[DocumentRecord], dry_run: bool = False) -> dict:
-    """Materialise registered PDFs into SKBUK and publish MOUUK delivery manifests."""
+    """Materialise registered active PDFs into SKBUK and publish MOUUK manifests."""
     skbuk = root / "SKBUK"
     documents = skbuk / "documents"
     manifests = skbuk / "delivery" / "MOUUK"
@@ -73,7 +73,9 @@ def sync_records(root: Path, records: list[DocumentRecord], dry_run: bool = Fals
     missing = 0
 
     for record in records:
-        if record.status not in {"active", "superseded"}:
+        # Historical/superseded versions remain in the collector archive and registry,
+        # but only the active version is delivered to MOUUK.
+        if record.status != "active":
             continue
         source = _source_pdf(root, record)
         if source is None:
