@@ -8,7 +8,9 @@ from pathlib import Path
 
 from .config import load_config
 from .collector import run_once
+from .registry import Registry
 from .report import write_report
+from .skbuk import sync_records
 
 
 def configure_logging(log_dir: Path) -> Path:
@@ -30,7 +32,7 @@ def configure_logging(log_dir: Path) -> Path:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Official UK public procurement PDF knowledge-base collector")
+    parser = argparse.ArgumentParser(description="Official UK public procurement PDF collector with SKBUK knowledge gateway")
     parser.add_argument("--config", type=Path, default=Path("config.yaml"))
     parser.add_argument("--dry-run", action="store_true", help="override config and do not write downloaded PDFs")
     parser.add_argument("--production", action="store_true", help="override config and enable downloads")
@@ -49,7 +51,17 @@ def main() -> int:
     logger = logging.LoggerAdapter(logging.getLogger("uk_kb_collector"), {"run_log": str(log_path)})
     logger.info("Starting collector; destination=%s dry_run=%s", cfg.destination, cfg.dry_run)
     logger.info("Legal notice: %s", cfg.legal_notice)
+
     summary = run_once(cfg, logger)
+
+    # SKBUK owns the raw PDF store and MOUUK delivery manifests. MOUUK modules
+    # receive references only; this stage deliberately does not chunk, embed or summarise.
+    reg = Registry(dirs / "10_Metadata" / "document_registry.csv", dirs / "10_Metadata" / "document_registry.json")
+    reg.load()
+    skbuk_summary = sync_records(dirs, list(reg.all()), dry_run=cfg.dry_run)
+    summary["skbuk"] = skbuk_summary
+    logger.info("SKBUK sync: %s", json.dumps(skbuk_summary, ensure_ascii=False))
+
     report = write_report(dirs / "09_Logs", summary, cfg.dry_run)
     logger.info("Finished. report=%s summary=%s", report, json.dumps(summary, ensure_ascii=False))
     return 0 if not summary["failed"] else 2
