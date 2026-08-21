@@ -1,20 +1,9 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
-from pathlib import Path
 from typing import Iterable
 
-
-@dataclass(frozen=True)
-class ModuleDefinition:
-    code: str
-    slug: str
-    name: str
-
-
-# Deterministic routing from collector classification into the 26 MOUUK modules.
-# Cross-cutting authority/temporal/relationship/evidence modules intentionally receive
-# the same authoritative source as a reference copy; no text processing is performed.
+# Deterministic routing from collector classification into the 26 MOUUK experts.
+# Routing creates SKBUK delivery references; MOUUK never owns the source PDF.
 CATEGORY_MODULES: dict[str, tuple[str, ...]] = {
     "01_Legislation/Procurement_Act_2023": ("MOUUK-0001",),
     "01_Legislation/Procurement_Regulations_2024": ("MOUUK-0002",),
@@ -46,8 +35,6 @@ TITLE_KEYWORDS: dict[str, tuple[str, ...]] = {
     "MOUUK-0022": ("data protection", "UK GDPR", "information governance"),
 }
 
-# These modules are evidence infrastructure. They need authoritative PDFs as references
-# but do not own a separate legal subject area.
 CROSS_CUTTING_MODULES = ("MOUUK-0023", "MOUUK-0024", "MOUUK-0025", "MOUUK-0026")
 
 
@@ -63,15 +50,5 @@ def route_modules(category: str, tags: Iterable[str], title: str = "") -> tuple[
         if any(keyword.casefold() in haystack for keyword in keywords):
             result.append(module)
 
-    # The source/evidence layer is always useful to these four modules.
     result.extend(CROSS_CUTTING_MODULES)
     return tuple(dict.fromkeys(result))
-
-
-def module_reference_dirs(root: Path, modules: Iterable[str]) -> dict[str, Path]:
-    refs: dict[str, Path] = {}
-    for code in modules:
-        path = root / "modules" / code / "references"
-        path.mkdir(parents=True, exist_ok=True)
-        refs[code] = path
-    return refs
