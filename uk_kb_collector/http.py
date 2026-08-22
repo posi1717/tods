@@ -48,10 +48,18 @@ class SafeHttpClient:
         host = (urlparse(url).hostname or "").lower()
         if host not in self.robots:
             rp = urllib.robotparser.RobotFileParser()
-            rp.set_url(f"https://{host}/robots.txt")
+            robots_url = f"https://{host}/robots.txt"
+            rp.set_url(robots_url)
             try:
-                self._throttle(rp.url)
-                rp.read()
+                self._throttle(robots_url)
+                response = self.session.get(
+                    robots_url,
+                    timeout=(self.config.connect_timeout, self.config.read_timeout),
+                    verify=self.config.verify_tls,
+                    allow_redirects=True,
+                )
+                response.raise_for_status()
+                rp.parse(response.text.splitlines())
                 self.robots[host] = rp
             except Exception as exc:
                 LOG.warning("robots.txt could not be read for %s: %s; refusing automated access", host, exc)
