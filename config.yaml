@@ -1,7 +1,7 @@
 version: 1
 
 collector:
-  destination: "~/Desktop/UK-KB-PUBLIC Sector"
+  destination: "./Knowledge_Base"
   interval_hours: 2
   dry_run: false
   max_pdf_bytes: 150000000
@@ -10,7 +10,7 @@ collector:
   max_retries: 4
   backoff_factor_seconds: 1.5
   min_delay_per_domain_seconds: 1.5
-  user_agent: "UK-KB-PUBLIC-Sector-Collector/1.0 (personal research/knowledge-base collector; contact: local-user)"
+  user_agent: "UKKB-Official-PDF-Collector/1.0 (knowledge-base ingestion; contact: repository-owner)"
   verify_tls: true
   max_pdf_probe_pages: 4
   max_relevance_chars: 20000
