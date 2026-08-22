@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-import json
 import logging
 import shutil
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlparse
@@ -71,6 +71,7 @@ def run_once(config: CollectorConfig, logger: logging.LoggerAdapter) -> dict:
     reg = Registry(dirs["metadata"] / "document_registry.csv", dirs["metadata"] / "document_registry.json")
     reg.load()
     client = SafeHttpClient(config)
+    started = time.monotonic()
     candidates, pages_checked, discovery_errors = discover_pdfs(config, client)
 
     summary = {
@@ -80,7 +81,11 @@ def run_once(config: CollectorConfig, logger: logging.LoggerAdapter) -> dict:
     for err in discovery_errors:
         summary["failed"].append(err)
 
-    for candidate in candidates:
+    for index, candidate in enumerate(candidates[:config.max_candidates_per_run], start=1):
+        if time.monotonic() - started >= config.max_run_minutes * 60:
+            logger.warning("Run time limit reached after %s candidates; remaining candidates will be handled next run", index - 1)
+            break
+        logger.info("Processing PDF %s/%s: %s", index, min(len(candidates), config.max_candidates_per_run), candidate.source_url)
         try:
             process_candidate(config, dirs, reg, client, candidate, summary, logger)
         except Exception as exc:
@@ -124,17 +129,15 @@ def process_candidate(config: CollectorConfig, dirs: dict[str, Path], reg: Regis
     temp = dirs["temp"] / f"{document_id(url)}.download"
     temp.unlink(missing_ok=True)
     with temp.open("wb") as f:
-        first = b""
         size = 0
         for chunk in response.iter_content(chunk_size=1024 * 1024):
             if not chunk:
                 continue
-            if not first:
-                first = chunk[:16]
             size += len(chunk)
             if size > config.max_pdf_bytes:
                 raise ValueError("download exceeded configured maximum size")
             f.write(chunk)
+    response.close()
     validate_pdf(temp, content_type, declared_length, config.max_pdf_bytes)
     digest = sha256_file(temp)
 
@@ -160,7 +163,6 @@ def process_candidate(config: CollectorConfig, dirs: dict[str, Path], reg: Regis
     publisher = classification.publisher if classification.publisher != "unknown-publisher" else candidate.publisher_hint or "unknown-publisher"
     publication_date = candidate.publication_date or ""
     last_modified = client.http_date_value(response.headers.get("Last-Modified", ""))
-    # Do not invent publication dates; only use HTTP last-modified as transport metadata.
     version_files = _existing_filename_candidates(current, category_dir(dirs, classification.category))
     version = next_version(version_files) if current else 1
     filename = build_filename(publication_date, publisher, title, version)
@@ -190,7 +192,6 @@ def process_candidate(config: CollectorConfig, dirs: dict[str, Path], reg: Regis
             archive_target = dirs["archive"] / archive_name
             shutil.move(str(old_path), str(archive_target))
             current.status = "superseded"
-            # The old version remains in the registry; its immutable version id is retained.
             reg.put(current)
 
     target.parent.mkdir(parents=True, exist_ok=True)
