@@ -1,0 +1,5 @@
+2026-08-25 10:09:29,102 INFO uk_kb_collector Starting collector; destination=/home/runner/work/UKKB/UKKB/Knowledge_Base dry_run=False
+2026-08-25 10:09:29,102 INFO uk_kb_collector Legal notice: Knowledge-base collector only; not legal advice. Official legal/policy materials may be amended or replaced. Verify the current version on the official source before use.
+2026-08-25 10:25:29,088 WARNING uk_kb_collector Run time limit reached after 0 candidates; remaining candidates will be handled next run
+2026-08-25 10:25:29,094 INFO uk_kb_collector SKBUK sync: {"documents_synced": 0, "documents_missing": 0, "modules_published": 26, "dry_run": false}
+2026-08-25 10:25:29,094 INFO uk_kb_collector Finished. report=/home/runner/work/UKKB/UKKB/Knowledge_Base/09_Logs/report_2026-08-25_1025.md summary={"urls_checked": 438, "pdfs_found": 421, "new": 0, "updated": 0, "skipped": 0, "failed": [], "new_docs": [], "supersedes": [], "needs_review": [], "skbuk": {"documents_synced": 0, "documents_missing": 0, "modules_published": 26, "dry_run": false}}
