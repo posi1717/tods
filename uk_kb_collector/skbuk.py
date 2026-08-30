@@ -1,7 +1,7 @@
 """SKBUK knowledge-store and governance gateway.
 
 SKBUK owns document storage, provenance, audit/version metadata and delivery
-manifests for the 26 MOUUK expert modules. MOUUK modules never own the source
+manifests for the MOUUK expert modules. MOUUK modules never own the source
 PDFs. This stage intentionally does not extract, chunk, embed or summarise.
 """
 
@@ -14,6 +14,7 @@ from pathlib import Path
 
 from .module_routing import route_modules
 from .models import DocumentRecord
+from .core.module_registry import ModuleRegistry
 from .utils import sha256_file
 
 
@@ -68,7 +69,9 @@ def sync_records(root: Path, records: list[DocumentRecord], dry_run: bool = Fals
         manifests.mkdir(parents=True, exist_ok=True)
         audit_log.parent.mkdir(parents=True, exist_ok=True)
 
-    module_entries: dict[str, list[dict]] = {f"MOUUK-{i:04d}": [] for i in range(1, 27)}
+    module_entries: dict[str, list[dict]] = {
+        definition.code: [] for definition in ModuleRegistry.load()
+    }
     synced = 0
     missing = 0
 
@@ -123,4 +126,9 @@ def sync_records(root: Path, records: list[DocumentRecord], dry_run: bool = Fals
             }
             path.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
-    return {"documents_synced": synced, "documents_missing": missing, "modules_published": 26, "dry_run": dry_run}
+    return {
+        "documents_synced": synced,
+        "documents_missing": missing,
+        "modules_published": len(module_entries),
+        "dry_run": dry_run,
+    }

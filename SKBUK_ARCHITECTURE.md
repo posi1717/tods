@@ -3,7 +3,7 @@
 ## Ownership
 
 - **SKBUK** is the knowledge supply and governance layer.
-- **MOUUK-0001 ... MOUUK-0026** are specialist expert modules. They consume knowledge references; they do not own the source PDFs and do not crawl external sources.
+- **MOUUK-0001 ... MOUUK-0034** are specialist expert modules. They consume knowledge references; they do not own the source PDFs and do not crawl external sources.
 
 ## Lifecycle
 

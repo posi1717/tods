@@ -11,7 +11,7 @@ SKBUK is the central document layer for UKKB.
 - calculate and retain SHA-256 hashes;
 - maintain supersession/version history;
 - audit every ingest/update/delivery event;
-- publish delivery manifests to MOUUK-0001 through MOUUK-0026;
+- publish delivery manifests to MOUUK-0001 through MOUUK-0034;
 - never chunk, embed or summarise during the raw-document collection phase.
 
 ## Tree

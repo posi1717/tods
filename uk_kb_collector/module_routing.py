@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Iterable
 
-# Deterministic routing from collector classification into the 26 MOUUK experts.
+# Deterministic routing from collector classification into the MOUUK experts.
 # Routing creates SKBUK delivery references; MOUUK never owns the source PDF.
 CATEGORY_MODULES: dict[str, tuple[str, ...]] = {
     "01_Legislation/Procurement_Act_2023": ("MOUUK-0001",),
@@ -26,13 +26,21 @@ TAG_MODULES: dict[str, tuple[str, ...]] = {
     "contract_management": ("MOUUK-0018",),
     "carbon": ("MOUUK-0019",),
     "security": ("MOUUK-0021",),
-    "SME_VCSE": ("MOUUK-0020",),
+    "SME_VCSE": ("MOUUK-0031",),
 }
 
 TITLE_KEYWORDS: dict[str, tuple[str, ...]] = {
     "MOUUK-0012": ("TOMs", "Themes Outcomes Measures", "social value"),
     "MOUUK-0020": ("modern slavery", "responsible supply chain"),
     "MOUUK-0022": ("data protection", "UK GDPR", "information governance"),
+    "MOUUK-0027": ("procedure", "award criteria", "evaluation criteria"),
+    "MOUUK-0028": ("standstill", "remedies", "contract award notice"),
+    "MOUUK-0029": ("below-threshold", "below threshold", "covered procurement"),
+    "MOUUK-0030": ("conflict of interest", "conflicts of interest"),
+    "MOUUK-0031": ("SME", "VCSE", "reserved contract"),
+    "MOUUK-0032": ("devolved", "Scotland", "Wales", "Northern Ireland"),
+    "MOUUK-0033": ("economic and financial standing", "financial standing"),
+    "MOUUK-0034": ("insurance", "mandatory policy", "mandatory policies"),
 }
 
 CROSS_CUTTING_MODULES = ("MOUUK-0023", "MOUUK-0024", "MOUUK-0025", "MOUUK-0026")

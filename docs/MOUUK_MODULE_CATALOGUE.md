@@ -1,4 +1,4 @@
-# UKKB MOUUK — 26 Expert Knowledge Modules
+# UKKB MOUUK — 34 Expert Knowledge Modules
 
 MOUUK is the expert-knowledge layer. The 26 modules do **not** own source PDFs. SKBUK is the source-of-truth document store and governance layer; MOUUK receives references/manifests from SKBUK.
 
@@ -73,6 +73,14 @@ UKKB/
 | MOUUK-0024 | Temporal and Version Intelligence | Governance expert for document currency | publication/update dates, supersession, version comparison, effective periods | SKBUK provenance/version metadata |
 | MOUUK-0025 | Cross-Governance Relationships | Expert on relationships between laws, policies, guidance and modules | dependencies, conflicts, applicability, cross-module links | SKBUK provenance + official sources |
 | MOUUK-0026 | Evidence and Provenance | Expert on traceability of every knowledge claim | document ID, source URL, hash, citation chain, evidence status | SKBUK document metadata + audit trail |
+| MOUUK-0027 | Procedures and Award Criteria | Expert on procurement procedures and award criteria | procedure selection, award criteria, evaluation design | legislation + official guidance |
+| MOUUK-0028 | Notices, Standstill and Remedies | Expert on award notices, standstill and procurement remedies | notices, challenge periods, remedies, court process | legislation + official guidance |
+| MOUUK-0029 | Below-threshold and Covered Procurement | Expert on below-threshold and covered procurement | coverage, thresholds, procedures, transparency | legislation + official guidance |
+| MOUUK-0030 | Conflicts of Interest | Expert on conflicts of interest in procurement | identification, mitigation, declarations, records | legislation + official guidance |
+| MOUUK-0031 | SME, VCSE and Reserved Contracts | Expert on SME, VCSE and reserved-contract policy | access, reservation, participation, policy outcomes | legislation + official guidance |
+| MOUUK-0032 | Devolved and Sector Regimes | Expert on devolved administrations and sector-specific regimes | jurisdiction, utilities, defence, sector rules | legislation + official guidance |
+| MOUUK-0033 | Economic and Financial Standing | Expert on supplier economic and financial standing | financial assessment, insurance, evidence, proportionality | legislation + official guidance |
+| MOUUK-0034 | Insurance and Mandatory Policies | Expert on insurance and mandatory procurement policies | insurance requirements, policy compliance, evidence | legislation + official guidance |
 
 ## Processing boundary
 
