@@ -21,6 +21,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: main
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -64,5 +65,5 @@ jobs:
             echo 'No new or changed Knowledge_Base files.'
           else
             git commit -m "kb: collect official procurement PDFs"
-            git push
+            git push origin HEAD:main
           fi
