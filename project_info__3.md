@@ -3,6 +3,8 @@
 **Date:** 20 Aug 2026 · **Mode:** Explore (inspection only; nothing modified)  
 **Workspace:** `C:\Users\Donny\Desktop\UK-KB-Collector`
 
+> Historical snapshot. This file records the state observed on 20 August 2026 and is not the current repository status. See `README.md` and `SKBUK_ARCHITECTURE.md` for the verified status as of 30 August 2026.
+
 ---
 
 ## 1. Workspace Confirmed

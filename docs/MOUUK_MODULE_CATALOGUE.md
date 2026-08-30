@@ -1,6 +1,6 @@
 # UKKB MOUUK — 34 Expert Knowledge Modules
 
-MOUUK is the expert-knowledge layer. The 26 modules do **not** own source PDFs. SKBUK is the source-of-truth document store and governance layer; MOUUK receives references/manifests from SKBUK.
+MOUUK is the expert-knowledge layer. The 34 modules do **not** own source PDFs. SKBUK is the source-of-truth document store and governance layer; MOUUK receives references/manifests from SKBUK.
 
 ## Folder / knowledge tree
 
@@ -16,13 +16,13 @@ UKKB/
 │   │       ├── MOUUK-0001.json
 │   │       ├── MOUUK-0002.json
 │   │       ├── ...
-│   │       └── MOUUK-0026.json
+│   │       └── MOUUK-0034.json
 │   ├── audit/
 │   │   └── events.jsonl
 │   └── source_registry.yaml                # approved authoritative sources
 │
-├── MOUUK/                                  # 26 expert knowledge modules
-│   ├── MOUUK-0001/ ... MOUUK-0026/
+├── MOUUK/                                  # 34 expert knowledge modules
+│   ├── MOUUK-0001/ ... MOUUK-0034/
 │   │   ├── manifest.yaml                   # identity + capabilities
 │   │   ├── rules/                           # specialist rules/taxonomy
 │   │   └── references/                     # DELIVERY REFERENCES ONLY; not source-of-truth

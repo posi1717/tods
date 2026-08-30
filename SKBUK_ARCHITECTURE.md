@@ -36,12 +36,16 @@ SKBUK/
 │   └── MOUUK/
 │       ├── MOUUK-0001.json
 │       ├── ...
-│       └── MOUUK-0026.json
+│       └── MOUUK-0034.json
 └── audit/
     └── events.jsonl
 ```
 
 `metadata.json` preserves the PDF's source URL, landing page, publisher, dates, version lineage, ETag/Last-Modified values, SHA-256 and the MOUUK modules to which SKBUK can deliver the document.
+
+## Verified repository status - 30 August 2026
+
+The repository contains the 34-module configuration and delivery-manifest structure, but this checkout contains no PDF files and the document registry has no records. The latest recorded collector run checked 438 URLs, found 421 PDF links, recorded 0 new and 0 updated files, and recorded 20 robots-policy refusals. Accordingly, document currency is not fully verifiable from the current checkout: successful URL checks support the unchanged result, while refused URLs remain unverified.
 
 ## Important boundary
 

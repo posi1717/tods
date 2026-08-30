@@ -10,6 +10,14 @@ The software does not attempt to bypass authentication, paywalls, CAPTCHAs, anti
 
 This is a knowledge-base collector, not legal advice. Government guidance and legislation can be amended or replaced. Always verify the current version on the official source before using a document operationally.
 
+## Verified repository status - 30 August 2026
+
+- MOUUK contains 34 configured modules, `MOUUK-0001` through `MOUUK-0034`.
+- The latest recorded collector report checked 438 URLs, found 421 PDF links, recorded 0 new and 0 updated files, and recorded 20 robots-policy refusals.
+- The current checkout contains 0 PDF files and an empty `Knowledge_Base/10_Metadata/document_registry.csv`/`.json`. The recorded collector result therefore does not prove that a complete document corpus is present in this checkout.
+- No duplicate files were found in the current `Knowledge_Base` checkout by filename or SHA-256 content hash. Historical run reports are retained as audit records and are not duplicate source documents.
+- Currency is only verified for URLs successfully checked by the latest run. The 20 robots-policy refusals remain unverified until an authorised source-access path is available.
+
 ## Architecture
 
 `discover -> robots/rate-limit gate -> PDF download -> PDF/magic-byte validation -> SHA-256 -> metadata/text probe -> relevance classification -> version/archive -> registry -> report`
@@ -17,18 +25,18 @@ This is a knowledge-base collector, not legal advice. Government guidance and le
 The package is organised into three layers:
 
 - `core/`: orchestration contracts and the canonical MOUUK module registry;
-- `workers/`: 26 independent knowledge and reasoning API plugins using a shared contract;
+- `workers/`: 34 independent knowledge and reasoning API plugins using a shared contract;
 - `intelligence/`: authority, temporal, relationship and evidence engines.
 
 Collection and reasoning are deliberately separated. The existing discovery and
 collector pipeline is the ingestion service: it finds, validates, versions and registers
-official documents. The 26 plugins do not crawl the web. They receive selected registry
+official documents. The 34 plugins do not crawl the web. They receive selected registry
 evidence through `ReasoningRequest`, apply their own specialist rules and taxonomy, and
 return a standard `ReasoningResponse` containing reasoning steps, citations, confidence
 and a review flag.
 
 Stable module identities are defined in `uk_kb_collector/modules.yaml`. Codes are never
-reused after publication. Every entry from MOUUK-0001 through MOUUK-0026 is independently
+reused after publication. Every entry from MOUUK-0001 through MOUUK-0034 is independently
 loadable and owns its manifest, sources, rules, taxonomy and reasoning worker. TOMs retains
 its semantic relationship to Social Value without sharing its worker implementation.
 
@@ -291,5 +299,3 @@ The collector intentionally does not use search-engine scraping as its source of
 - A file is never replaced in-place when its hash changes.
 - Classification is deterministic and conservative; uncertain documents go to `00_Inbox` with `NEEDS_REVIEW`.
 - The collector does not summarise or alter legal content during collection.
-#   U K K B  
- 
