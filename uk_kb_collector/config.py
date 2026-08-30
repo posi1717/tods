@@ -23,6 +23,8 @@ class CollectorConfig:
     max_pdf_probe_pages: int
     max_relevance_chars: int
     max_discovery_pages_per_source: int
+    max_candidates_per_run: int
+    max_run_minutes: int
     allowed_domains: tuple[str, ...]
     terms_approved_hosts: tuple[str, ...]
     respect_terms_of_use: bool
@@ -45,15 +47,17 @@ def load_config(path: Path) -> CollectorConfig:
         dry_run=bool(c.get("dry_run", True)),
         max_pdf_bytes=int(c.get("max_pdf_bytes", 150_000_000)),
         connect_timeout=float(c.get("connect_timeout_seconds", 15)),
-        read_timeout=float(c.get("read_timeout_seconds", 60)),
-        max_retries=int(c.get("max_retries", 4)),
-        backoff_factor=float(c.get("backoff_factor_seconds", 1.5)),
-        min_delay_per_domain=float(c.get("min_delay_per_domain_seconds", 1.5)),
+        read_timeout=float(c.get("read_timeout_seconds", 30)),
+        max_retries=int(c.get("max_retries", 2)),
+        backoff_factor=float(c.get("backoff_factor_seconds", 1.0)),
+        min_delay_per_domain=float(c.get("min_delay_per_domain_seconds", 0.5)),
         user_agent=str(c["user_agent"]),
         verify_tls=bool(c.get("verify_tls", True)),
         max_pdf_probe_pages=int(c.get("max_pdf_probe_pages", 4)),
         max_relevance_chars=int(c.get("max_relevance_chars", 20_000)),
-        max_discovery_pages_per_source=int(c.get("max_discovery_pages_per_source", 40)),
+        max_discovery_pages_per_source=int(c.get("max_discovery_pages_per_source", 5)),
+        max_candidates_per_run=int(c.get("max_candidates_per_run", 20)),
+        max_run_minutes=int(c.get("max_run_minutes", 15)),
         allowed_domains=tuple(raw.get("allowed_domains", [])),
         terms_approved_hosts=tuple(compliance.get("terms_approved_hosts", [])),
         respect_terms_of_use=bool(compliance.get("respect_terms_of_use", True)),

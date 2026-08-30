@@ -1,0 +1,8 @@
+{
+  "module": "MOUUK-0016",
+  "role": "MOUUK expert knowledge module",
+  "owner": "SKBUK",
+  "source_of_truth": "SKBUK/documents",
+  "documents": [],
+  "processing_stage": "raw_pdf_reference"
+}
