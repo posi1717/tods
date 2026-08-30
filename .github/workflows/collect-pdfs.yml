@@ -7,8 +7,6 @@ on:
       - 'config.yaml'
       - 'uk_kb_collector/**'
       - '.github/workflows/collect-pdfs.yml'
-  schedule:
-    - cron: '0 */2 * * *'
   workflow_dispatch:
 
 permissions:
