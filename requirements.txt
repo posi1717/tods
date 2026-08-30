@@ -3,4 +3,5 @@ beautifulsoup4>=4.12,<5
 pypdf>=6.0,<7
 PyYAML>=6.0,<7
 pydantic>=2.7,<3
+composio>=0.21,<1
 pytest>=8,<9

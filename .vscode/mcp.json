@@ -1,0 +1,19 @@
+{
+  "servers": {
+    "composio": {
+      "type": "http",
+      "url": "https://connect.composio.dev/mcp",
+      "headers": {
+        "x-consumer-api-key": "${input:composio-api-key}"
+      }
+    }
+  },
+  "inputs": [
+    {
+      "type": "promptString",
+      "id": "composio-api-key",
+      "description": "Composio API key",
+      "password": true
+    }
+  ]
+}
