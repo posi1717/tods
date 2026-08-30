@@ -1,4 +1,4 @@
 {
-    "doracodelens.pythonPath": "/opt/homebrew/bin/python3",
+    "doracodelens.pythonPath": "C:\\Users\\Donny\\Desktop\\UK-KB-Collector\\.venv\\Scripts\\python.exe",
     "window.title": "${dirty}${activeEditorShort}${separator}${rootName}${separator}${profileName}${separator}${appName}${separator}[Branch: main]"
 }

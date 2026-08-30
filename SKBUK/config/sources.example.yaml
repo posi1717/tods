@@ -1,0 +1,19 @@
+sources:
+  - source_id: src_procurement_act_guidance
+    source_name: Procurement Act 2023 Guidance Documents
+    landing_url: https://www.gov.uk/government/collections/procurement-act-2023-guidance-documents
+    publisher: gov.uk
+    enabled: true
+    category_hint: guidance
+  - source_id: src_procurement_policy_notes
+    source_name: Procurement Policy Notes
+    landing_url: https://www.gov.uk/government/collections/procurement-policy-notes
+    publisher: gov.uk
+    enabled: true
+    category_hint: policy-notes
+  - source_id: src_procurement_act_2023
+    source_name: Procurement Act 2023
+    landing_url: https://www.legislation.gov.uk/ukpga/2023/54
+    publisher: legislation.gov.uk
+    enabled: true
+    category_hint: primary-legislation

@@ -1,0 +1,24 @@
+official:
+  primary-legislation: [MOUUK-0001, MOUUK-0004]
+  secondary-legislation: [MOUUK-0002, MOUUK-0003]
+  guidance: [MOUUK-0007, MOUUK-0008, MOUUK-0009, MOUUK-0010]
+  policy-notes: [MOUUK-0005]
+  supplier-guidance: [MOUUK-0013, MOUUK-0033, MOUUK-0034]
+bidder:
+  B01: Organisation identity
+  B02: Bidding structure
+  B03: Exclusion declarations
+  B04: Financial standing
+  B05: Insurance
+  B06: Mandatory policies
+  B07: Certificates
+  B08: Delivery capability
+  B09: Tender responses
+  B10: Submission evidence
+tender_pack:
+  ITT: Invitation to Tender
+  SPECIFICATION: Specification
+  PRICING_SCHEDULE: Pricing schedule
+  EVALUATION_CRITERIA: Evaluation criteria
+  TERMS_AND_CONDITIONS: Terms and conditions
+  CLARIFICATIONS: Clarifications

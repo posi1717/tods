@@ -1,0 +1,82 @@
+version: 1
+
+rules:
+  - id: legislation_explanatory_notes
+    when:
+      host: legislation.gov.uk
+      path_regex: '^/(ukpga|uksi)/.+/pdfs/.+(en_|explanatory).+\.pdf$'
+    set:
+      publisher: legislation.gov.uk
+      document_family: explanatory-notes
+
+  - id: legislation_primary
+    when:
+      host: legislation.gov.uk
+      path_regex: '^/ukpga/.+/pdfs/.+\.pdf$'
+    set:
+      publisher: legislation.gov.uk
+      document_family: primary-legislation
+
+  - id: legislation_secondary
+    when:
+      host: legislation.gov.uk
+      path_regex: '^/uksi/.+/pdfs/.+\.pdf$'
+    set:
+      publisher: legislation.gov.uk
+      document_family: secondary-legislation
+
+  - id: govuk_policy_notes
+    when:
+      host_suffix: gov.uk
+      landing_url_regex: '/government/collections/procurement-policy-notes'
+    set:
+      publisher: gov.uk
+      document_family: policy-notes
+
+  - id: govuk_supplier_guidance
+    when:
+      host_suffix: gov.uk
+      landing_url_regex: '/government/collections/information-and-guidance-for-suppliers'
+    set:
+      publisher: gov.uk
+      document_family: supplier-guidance
+
+  - id: govuk_guidance
+    when:
+      host_suffix: gov.uk
+      landing_url_regex: '/government/collections/procurement-act-2023-guidance-documents'
+    set:
+      publisher: gov.uk
+      document_family: guidance
+
+fallback:
+  publisher: gov.uk
+  document_family: misc
+
+vocabularies:
+  document_family:
+    - primary-legislation
+    - secondary-legislation
+    - explanatory-notes
+    - guidance
+    - policy-notes
+    - supplier-guidance
+    - training-manual
+    - consultation
+    - misc
+  status:
+    - active
+    - superseded
+    - missing
+    - rejected
+  rejection_reason:
+    - robots_unreadable
+    - robots_disallowed
+    - host_not_allowlisted
+    - not_pdf
+    - http_error
+    - invalid_content_type
+    - duplicate_hash
+    - fetch_failed
+    - classification_failed
+    - path_policy_blocked

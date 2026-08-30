@@ -13,12 +13,12 @@ from uk_kb_collector.core import (
 from uk_kb_collector.workers import PluginManager, ReasoningRequest
 
 
-def test_26_permanent_module_directories_have_required_structure():
+def test_34_permanent_module_directories_have_required_structure():
     modules_root = Path(__file__).parents[1] / "uk_kb_collector" / "modules"
     required_files = {"worker.py", "module.yaml", "sources.yaml", "rules.yaml", "taxonomy.yaml"}
 
     module_dirs = sorted(path for path in modules_root.iterdir() if path.is_dir() and path.name.startswith("MOUUK-"))
-    assert len(module_dirs) == 26
+    assert len(module_dirs) == 34
 
     for module_dir in module_dirs:
         names = {path.name for path in module_dir.iterdir()}
@@ -29,7 +29,7 @@ def test_26_permanent_module_directories_have_required_structure():
 
 def test_module_ids_remain_stable_and_complete():
     registry = ModuleRegistry.load()
-    assert [module.code for module in registry] == [f"MOUUK-{number:04d}" for number in range(1, 27)]
+    assert [module.code for module in registry] == [f"MOUUK-{number:04d}" for number in range(1, 35)]
 
 
 def test_document_registry_retains_required_metadata_fields():

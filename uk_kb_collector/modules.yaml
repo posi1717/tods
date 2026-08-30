@@ -131,3 +131,43 @@ modules:
   name: Evidence and Provenance
   layer: plugin
   kind: reasoning
+- code: MOUUK-0027
+  slug: procedures_award_criteria
+  name: Procedures and Award Criteria
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0028
+  slug: notices_standstill_remedies
+  name: Notices, Standstill and Remedies
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0029
+  slug: below_threshold_covered_procurement
+  name: Below-threshold and Covered Procurement
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0030
+  slug: conflicts_of_interest
+  name: Conflicts of Interest
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0031
+  slug: sme_vcse_reserved_contracts
+  name: SME, VCSE and Reserved Contracts
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0032
+  slug: devolved_sector_regimes
+  name: Devolved and Sector Regimes
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0033
+  slug: economic_financial_standing
+  name: Economic and Financial Standing
+  layer: plugin
+  kind: reasoning
+- code: MOUUK-0034
+  slug: insurance_mandatory_policies
+  name: Insurance and Mandatory Policies
+  layer: plugin
+  kind: reasoning

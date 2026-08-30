@@ -1,0 +1,92 @@
+version: 1
+
+sources:
+  - source_id: src_procurement_policy_notes
+    source_name: Procurement Policy Notes
+    landing_url: https://www.gov.uk/government/collections/procurement-policy-notes
+    publisher: gov.uk
+    jurisdiction: UK
+    category_hint: policy-notes
+    enabled: true
+    robots_status: unknown
+
+  - source_id: src_procurement_act_guidance
+    source_name: Procurement Act 2023 Guidance Documents
+    landing_url: https://www.gov.uk/government/collections/procurement-act-2023-guidance-documents
+    publisher: gov.uk
+    jurisdiction: UK
+    category_hint: guidance
+    enabled: true
+    robots_status: unknown
+
+  - source_id: src_supplier_guidance
+    source_name: Information and Guidance for Suppliers
+    landing_url: https://www.gov.uk/government/collections/information-and-guidance-for-suppliers
+    publisher: gov.uk
+    jurisdiction: UK
+    category_hint: supplier-guidance
+    enabled: true
+    robots_status: unknown
+
+  - source_id: src_procurement_act_2023
+    source_name: Procurement Act 2023
+    landing_url: https://www.legislation.gov.uk/ukpga/2023/54
+    publisher: legislation.gov.uk
+    jurisdiction: UK
+    category_hint: primary-legislation
+    enabled: true
+    robots_status: unknown
+
+  - source_id: src_procurement_regulations_2024
+    source_name: Procurement Regulations 2024
+    landing_url: https://www.legislation.gov.uk/uksi/2024/692
+    publisher: legislation.gov.uk
+    jurisdiction: UK
+    category_hint: secondary-legislation
+    enabled: true
+    robots_status: unknown
+
+  - source_id: src_public_contracts_regulations_2015
+    source_name: Public Contracts Regulations 2015
+    landing_url: https://www.legislation.gov.uk/uksi/2015/102
+    publisher: legislation.gov.uk
+    jurisdiction: UK
+    category_hint: secondary-legislation
+    enabled: true
+    robots_status: unknown
+
+  - source_id: src_utilities_contracts_regulations_2016
+    source_name: Utilities Contracts Regulations 2016
+    landing_url: https://www.legislation.gov.uk/uksi/2016/274
+    publisher: legislation.gov.uk
+    jurisdiction: UK
+    category_hint: secondary-legislation
+    enabled: true
+    robots_status: unknown
+
+  - source_id: src_concession_contracts_regulations_2016
+    source_name: Concession Contracts Regulations 2016
+    landing_url: https://www.legislation.gov.uk/uksi/2016/273
+    publisher: legislation.gov.uk
+    jurisdiction: UK
+    category_hint: secondary-legislation
+    enabled: true
+    robots_status: unknown
+
+  - source_id: src_defence_security_regulations_2011
+    source_name: Defence and Security Public Contracts Regulations 2011
+    landing_url: https://www.legislation.gov.uk/uksi/2011/1848
+    publisher: legislation.gov.uk
+    jurisdiction: UK
+    category_hint: secondary-legislation
+    enabled: true
+    robots_status: unknown
+
+  - source_id: src_social_value_act_2012
+    source_name: Public Services (Social Value) Act 2012
+    landing_url: https://www.legislation.gov.uk/ukpga/2012/3
+    publisher: legislation.gov.uk
+    jurisdiction: UK
+    category_hint: primary-legislation
+    enabled: true
+    robots_status: unknown

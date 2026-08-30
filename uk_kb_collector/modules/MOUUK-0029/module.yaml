@@ -1,0 +1,6 @@
+code: MOUUK-0029
+name: "Below-threshold and Covered Procurement"
+slug: below_threshold_covered_procurement
+layer: plugin
+kind: reasoning
+expertise: "Below-threshold and covered procurement specialist governance reasoning"

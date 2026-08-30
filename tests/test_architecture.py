@@ -5,7 +5,7 @@ from uk_kb_collector.workers import PluginManager, ReasoningRequest
 
 def test_catalogue_contains_all_stable_module_codes():
     registry = ModuleRegistry.load()
-    assert [module.code for module in registry] == [f"MOUUK-{number:04d}" for number in range(1, 27)]
+    assert [module.code for module in registry] == [f"MOUUK-{number:04d}" for number in range(1, 35)]
 
 
 def test_toms_is_owned_by_social_value():
@@ -23,10 +23,10 @@ def test_intelligence_result_uses_stable_code():
     assert result.engine_code == "MOUUK-0023"
 
 
-def test_all_26_plugins_are_independently_loadable():
+def test_all_34_plugins_are_independently_loadable():
     workers = PluginManager().load_all()
-    assert len(workers) == 26
-    assert len({type(worker) for worker in workers}) == 26
+    assert len(workers) == 34
+    assert len({type(worker) for worker in workers}) == 34
 
 
 def test_plugin_api_is_evidence_first():

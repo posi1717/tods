@@ -1,0 +1,6 @@
+code: MOUUK-0033
+name: "Economic and Financial Standing"
+slug: economic_financial_standing
+layer: plugin
+kind: reasoning
+expertise: "Economic and financial standing specialist governance reasoning"
