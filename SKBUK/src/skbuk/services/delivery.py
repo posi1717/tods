@@ -7,10 +7,11 @@ from pathlib import Path
 
 
 MODULE_CODES = tuple(f"MOUUK-{number:04d}" for number in range(1, 35))
+_GUIDANCE_MODULES = ("MOUUK-0007", "MOUUK-0008", "MOUUK-0009", "MOUUK-0010")
 _SOURCE_MODULES = {
-    "guidance": ("MOUUK-0007", "MOUUK-0008", "MOUUK-0009", "MOUUK-0010"),
+    "guidance": _GUIDANCE_MODULES,
     "src_procurement_act_2023": ("MOUUK-0001",),
-    "src_procurement_act_guidance": ("MOUUK-0007", "MOUUK-0008", "MOUUK-0009", "MOUUK-0010"),
+    "src_procurement_act_guidance": _GUIDANCE_MODULES,
     "src_procurement_policy_notes": ("MOUUK-0005",),
 }
 _GOVERNANCE_MODULES = ("MOUUK-0023", "MOUUK-0024", "MOUUK-0025", "MOUUK-0026")
