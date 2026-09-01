@@ -78,6 +78,7 @@ def collect(
     sources_checked = discovered = stored = would_store = unchanged = rejected = errors = 0
     sections: dict[str, list[str]] = {"Sources checked": [], "Robots refusals": [], "Errors": []}
     references: list[dict[str, str]] = []
+    run_status = "completed"
     owned_client = client is None
     client = client or httpx.Client(timeout=timeout_seconds, headers={"User-Agent": user_agent})
 
@@ -142,6 +143,10 @@ def collect(
                 except (httpx.HTTPError, OSError, ValueError) as exc:
                     errors += 1
                     sections["Errors"].append(f"{url}: {exc}")
+    except Exception as exc:
+        errors += 1
+        run_status = "failed"
+        sections["Errors"].append(f"collection failed: {exc}")
     finally:
         if owned_client:
             client.close()
@@ -158,7 +163,7 @@ def collect(
     write_markdown(report_path, run_id, sections)
     modules_published = 0 if dry_run else publish_references(storage_root, references)
     if provenance and not dry_run:
-        provenance.finish("completed" if errors == 0 else "partial", {
+        provenance.finish(run_status if run_status == "failed" else ("completed" if errors == 0 else "partial"), {
             "discovered": discovered,
             "stored": stored,
             "unchanged": unchanged,

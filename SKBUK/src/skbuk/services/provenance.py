@@ -10,7 +10,7 @@ class RegistryWriter(Protocol):
     def insert(self, table: str, payload: dict[str, Any]) -> Any: ...
 
 
-def now() -> str:
+def _iso_now() -> str:
     return datetime.now(UTC).isoformat()
 
 
@@ -23,7 +23,7 @@ class ProvenanceWriter:
 
     def start(self) -> None:
         response = self.registry.insert("tod_ingestion_runs", {
-            "started_at": now(),
+            "started_at": _iso_now(),
             "status": "running",
         })
         self.run_id = response[0]["run_id"]
