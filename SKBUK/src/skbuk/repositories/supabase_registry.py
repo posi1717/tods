@@ -44,6 +44,8 @@ class SupabaseRegistry:
     def insert(self, table: str, payload: dict[str, Any]) -> Any:
         if table.startswith("storage."):
             raise ValueError("registry adapter cannot write storage metadata tables")
+        if self.base_url is None:
+            raise RuntimeError("Supabase REST URL and service-role key are required for writes")
         response = self.client.post(
             f"{self.base_url}/rest/v1/{table}",
             json=payload,

@@ -35,3 +35,9 @@ def test_insert_uses_supabase_rest_without_storage_metadata_access():
     )
 
     assert registry.insert("tod_ingestion_events", {"event_type": "test"}) == [{"event_id": "1"}]
+
+
+def test_healthcheck_returns_false_without_supabase_url():
+    registry = SupabaseRegistry(httpx.Client(), None, "test-key")
+
+    assert not registry.healthcheck()
