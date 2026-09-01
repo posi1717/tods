@@ -19,6 +19,7 @@ src/skbuk/repositories/supabase_registry.py
 src/skbuk/services/__init__.py
 src/skbuk/services/allowlist.py
 src/skbuk/services/classifier.py
+src/skbuk/services/collection.py
 src/skbuk/services/discovery.py
 src/skbuk/services/downloader.py
 src/skbuk/services/extractor.py
@@ -38,6 +39,7 @@ src/skbuk/utils/filenames.py
 src/skbuk/utils/timestamps.py
 src/skbuk/utils/urls.py
 tests/test_allowlist.py
+tests/test_collection.py
 tests/test_hash_deduplication.py
 tests/test_pdf_validation.py
 tests/test_reports.py
