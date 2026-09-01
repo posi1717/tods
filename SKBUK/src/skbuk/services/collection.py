@@ -14,6 +14,7 @@ import yaml
 from skbuk.services.allowlist import approve
 from skbuk.services.discovery import discover_links
 from skbuk.services.downloader import download_pdf
+from skbuk.services.delivery import publish_references
 from skbuk.services.reporting import write_markdown
 from skbuk.services.robots import check
 from skbuk.services.storage import official_path, write_immutable
@@ -30,6 +31,7 @@ class CollectionResult:
     unchanged: int
     rejected: int
     errors: int
+    modules_published: int
     report_path: Path
 
     def as_dict(self) -> dict[str, str | int]:
@@ -42,6 +44,7 @@ class CollectionResult:
             "unchanged": self.unchanged,
             "rejected": self.rejected,
             "errors": self.errors,
+            "modules_published": self.modules_published,
             "report_path": str(self.report_path),
         }
 
@@ -72,6 +75,7 @@ def collect(
     report_path = storage_root / "reports" / f"{run_id}.md"
     sources_checked = discovered = stored = would_store = unchanged = rejected = errors = 0
     sections: dict[str, list[str]] = {"Sources checked": [], "Robots refusals": [], "Errors": []}
+    references: list[dict[str, str]] = []
     owned_client = client is None
     client = client or httpx.Client(timeout=timeout_seconds, headers={"User-Agent": user_agent})
 
@@ -121,6 +125,12 @@ def collect(
                             stored += 1
                         else:
                             would_store += 1
+                        references.append({
+                            "source_id": source_id,
+                            "source_url": url,
+                            "sha256": sha256,
+                            "storage_path": relative_path,
+                        })
                 except (httpx.HTTPError, OSError, ValueError) as exc:
                     errors += 1
                     sections["Errors"].append(f"{url}: {exc}")
@@ -138,4 +148,5 @@ def collect(
         f"Dry run: {dry_run}",
     ]
     write_markdown(report_path, run_id, sections)
-    return CollectionResult(run_id, sources_checked, discovered, stored, would_store, unchanged, rejected, errors, report_path)
+    modules_published = 0 if dry_run else publish_references(storage_root, references)
+    return CollectionResult(run_id, sources_checked, discovered, stored, would_store, unchanged, rejected, errors, modules_published, report_path)

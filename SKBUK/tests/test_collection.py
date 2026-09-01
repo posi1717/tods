@@ -34,6 +34,10 @@ def test_collection_stores_valid_official_pdf_and_reports(tmp_path: Path):
     assert result.stored == 1
     assert result.discovered == 1
     assert list((tmp_path / "data" / "01_OFFICIAL_SOURCES" / "guidance").glob("*.pdf"))
+    assert result.modules_published == 34
+    manifest = (tmp_path / "data" / "delivery" / "MOUUK" / "MOUUK-0007.json").read_text(encoding="utf-8")
+    assert "SKBUK storage" in manifest
+    assert "guide.pdf" in manifest
     assert result.report_path.is_file()
 
 
