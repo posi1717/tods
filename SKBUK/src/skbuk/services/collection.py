@@ -12,7 +12,6 @@ import httpx
 import yaml
 
 from skbuk.services.allowlist import approve
-from skbuk.services.classifier import classify
 from skbuk.services.discovery import discover_links
 from skbuk.services.downloader import download_pdf
 from skbuk.services.reporting import write_markdown
@@ -27,6 +26,7 @@ class CollectionResult:
     sources_checked: int
     discovered: int
     stored: int
+    would_store: int
     unchanged: int
     rejected: int
     errors: int
@@ -38,6 +38,7 @@ class CollectionResult:
             "sources_checked": self.sources_checked,
             "discovered": self.discovered,
             "stored": self.stored,
+            "would_store": self.would_store,
             "unchanged": self.unchanged,
             "rejected": self.rejected,
             "errors": self.errors,
@@ -69,7 +70,7 @@ def collect(
     """Run discovery, policy checks, validation and immutable storage for enabled sources."""
     run_id = datetime.now(UTC).strftime("run-%Y%m%dT%H%M%SZ")
     report_path = storage_root / "reports" / f"{run_id}.md"
-    sources_checked = discovered = stored = unchanged = rejected = errors = 0
+    sources_checked = discovered = stored = would_store = unchanged = rejected = errors = 0
     sections: dict[str, list[str]] = {"Sources checked": [], "Robots refusals": [], "Errors": []}
     owned_client = client is None
     client = client or httpx.Client(timeout=timeout_seconds, headers={"User-Agent": user_agent})
@@ -119,7 +120,7 @@ def collect(
                             write_immutable(storage_root, relative_path, temporary.read_bytes())
                             stored += 1
                         else:
-                            stored += 1
+                            would_store += 1
                 except (httpx.HTTPError, OSError, ValueError) as exc:
                     errors += 1
                     sections["Errors"].append(f"{url}: {exc}")
@@ -130,10 +131,11 @@ def collect(
     sections["Summary"] = [
         f"Discovered PDFs: {discovered}",
         f"Stored PDFs: {stored}",
+        f"Would store PDFs: {would_store}",
         f"Unchanged PDFs: {unchanged}",
         f"Rejected URLs: {rejected}",
         f"Errors: {errors}",
         f"Dry run: {dry_run}",
     ]
     write_markdown(report_path, run_id, sections)
-    return CollectionResult(run_id, sources_checked, discovered, stored, unchanged, rejected, errors, report_path)
+    return CollectionResult(run_id, sources_checked, discovered, stored, would_store, unchanged, rejected, errors, report_path)
