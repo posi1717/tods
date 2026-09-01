@@ -53,4 +53,6 @@ class SupabaseRegistry:
             )
             response.raise_for_status()
             return response.json()
+        if not hasattr(self.client, "table"):
+            raise RuntimeError("Supabase REST URL and service-role key are required for writes")
         return self.client.table(table).insert(payload).execute()
