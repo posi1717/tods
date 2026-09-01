@@ -122,11 +122,13 @@ def collect(
                         filename = f"{safe_segment(source_id)}__{sha256[:16]}.pdf"
                         relative_path = official_path(f"01_OFFICIAL_SOURCES/{safe_segment(source_id)}/{filename}")
                         target = storage_root / relative_path
+                        newly_stored = False
                         if target.exists():
                             unchanged += 1
                         elif not dry_run:
                             write_immutable(storage_root, relative_path, temporary.read_bytes())
                             stored += 1
+                            newly_stored = True
                         else:
                             would_store += 1
                         references.append({
@@ -135,7 +137,7 @@ def collect(
                             "sha256": sha256,
                             "storage_path": relative_path,
                         })
-                        if provenance and not dry_run:
+                        if provenance and newly_stored:
                             provenance.accepted_document(source_id, url, sha256, relative_path)
                 except (httpx.HTTPError, OSError, ValueError) as exc:
                     errors += 1

@@ -14,6 +14,8 @@ _SOURCE_MODULES = {
     "src_procurement_act_guidance": _GUIDANCE_MODULES,
     "src_procurement_policy_notes": ("MOUUK-0005",),
 }
+# Governance modules receive every reference to assess authority, currency,
+# relationships, and provenance independently of specialist subject routing.
 _GOVERNANCE_MODULES = ("MOUUK-0023", "MOUUK-0024", "MOUUK-0025", "MOUUK-0026")
 
 

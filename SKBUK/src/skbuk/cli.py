@@ -42,8 +42,10 @@ def collect(config: Path = typer.Option(..., "--config"), source: str | None = N
     if not config.is_file():
         raise typer.BadParameter("config must be an existing file")
     settings = Settings()
-    registry = SupabaseRegistry.from_settings(settings) if settings.has_server_credentials and not dry_run else None
+    registry = None
     try:
+        if settings.has_server_credentials and not dry_run:
+            registry = SupabaseRegistry.from_settings(settings)
         result = collect_documents(
             config,
             Path(settings.skbuk_storage_root),

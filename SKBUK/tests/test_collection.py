@@ -3,6 +3,7 @@ from pathlib import Path
 import httpx
 
 from skbuk.services.collection import collect
+from skbuk.services.provenance import ProvenanceWriter
 
 
 def _config(path: Path) -> Path:
@@ -66,3 +67,34 @@ def test_dry_run_reports_would_store_without_writing(tmp_path: Path):
     assert result.stored == 0
     assert result.would_store == 1
     assert not (tmp_path / "data" / "01_OFFICIAL_SOURCES").exists()
+
+
+def test_unchanged_document_does_not_emit_collected_event(tmp_path: Path):
+    class Registry:
+        def __init__(self):
+            self.calls = []
+
+        def insert(self, table, payload):
+            self.calls.append((table, payload))
+            return [{"run_id": "run-1"}]
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path == "/robots.txt":
+            return httpx.Response(200, text="User-agent: *\nAllow: /")
+        if request.url.path == "/collection":
+            return httpx.Response(200, text='<a href="/guide.pdf">Guide</a>')
+        return httpx.Response(200, headers={"content-type": "application/pdf"}, content=b"%PDF-1.7\n")
+
+    registry = Registry()
+    kwargs = dict(
+        config_path=_config(tmp_path / "sources.yaml"),
+        storage_root=tmp_path / "data",
+        user_agent="SKBUK",
+        max_download_bytes=1000,
+        timeout_seconds=1,
+        client=httpx.Client(transport=httpx.MockTransport(handler)),
+    )
+    collect(**kwargs)
+    collect(**kwargs, provenance=ProvenanceWriter(registry))
+
+    assert [call[1]["event_type"] for call in registry.calls if call[0] == "tod_ingestion_events"] == ["collection_finished"]
