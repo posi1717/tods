@@ -58,3 +58,11 @@ def test_upload_writes_pdf_to_private_official_bucket():
     )
 
     registry.upload_official_pdf("01_OFFICIAL_SOURCES/a.pdf", b"%PDF-1.7\n")
+
+
+def test_upload_rejects_invalid_storage_path():
+    registry = SupabaseRegistry(httpx.Client(), "https://project.supabase.co", "test-key")
+
+    import pytest
+    with pytest.raises(ValueError):
+        registry.upload_official_pdf("/01_OFFICIAL_SOURCES/a.pdf", b"%PDF-1.7\n")

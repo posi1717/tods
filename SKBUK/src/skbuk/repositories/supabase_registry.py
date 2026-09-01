@@ -56,8 +56,15 @@ class SupabaseRegistry:
 
     def upload_official_pdf(self, storage_path: str, content: bytes) -> None:
         """Store an original PDF in the private official-source bucket."""
-        if not storage_path.startswith("01_OFFICIAL_SOURCES/") or ".." in storage_path.split("/"):
+        if (
+            not storage_path
+            or storage_path.startswith("/")
+            or not storage_path.startswith("01_OFFICIAL_SOURCES/")
+            or ".." in storage_path.split("/")
+        ):
             raise ValueError("official storage path is invalid")
+        if self.base_url is None:
+            raise RuntimeError("Supabase REST URL and service-role key are required for uploads")
         response = self.client.post(
             f"{self.base_url}/storage/v1/object/tod-official/{storage_path}",
             content=content,
