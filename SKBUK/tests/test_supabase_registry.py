@@ -9,7 +9,7 @@ def test_healthcheck_uses_protected_registry_table_and_service_headers():
         assert request.url.params["select"] == "run_id"
         assert request.url.params["limit"] == "1"
         assert request.headers["apikey"] == "test-key"
-        assert request.headers["authorization"] == "Bearer " + "test-key"
+        assert request.headers["Authorization"] == "Bearer " + "test-key"
         return httpx.Response(200, json=[])
 
     registry = SupabaseRegistry(

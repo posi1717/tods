@@ -1,6 +1,5 @@
-from typing import Any
-
 import httpx
+from typing import Any
 
 from skbuk.settings import Settings
 
@@ -8,7 +7,7 @@ from skbuk.settings import Settings
 class SupabaseRegistry:
     """Server-side adapter boundary; requires the service-role key at runtime."""
 
-    def __init__(self, client: Any, base_url: str | None = None, service_role_key: str | None = None) -> None:
+    def __init__(self, client: httpx.Client, base_url: str | None = None, service_role_key: str | None = None) -> None:
         self.client = client
         self.base_url = base_url.rstrip("/") if base_url else None
         self.service_role_key = service_role_key
@@ -45,14 +44,10 @@ class SupabaseRegistry:
     def insert(self, table: str, payload: dict[str, Any]) -> Any:
         if table.startswith("storage."):
             raise ValueError("registry adapter cannot write storage metadata tables")
-        if self.base_url:
-            response = self.client.post(
-                f"{self.base_url}/rest/v1/{table}",
-                json=payload,
-                headers={**self._headers(), "Prefer": "return=representation"},
-            )
-            response.raise_for_status()
-            return response.json()
-        if not hasattr(self.client, "table"):
-            raise RuntimeError("Supabase REST URL and service-role key are required for writes")
-        return self.client.table(table).insert(payload).execute()
+        response = self.client.post(
+            f"{self.base_url}/rest/v1/{table}",
+            json=payload,
+            headers={**self._headers(), "Prefer": "return=representation"},
+        )
+        response.raise_for_status()
+        return response.json()

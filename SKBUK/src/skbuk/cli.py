@@ -87,11 +87,14 @@ def storage_verify(dry_run: bool = False, json_output: bool = typer.Option(False
     if not settings.has_server_credentials:
         emit({"status": "not_configured", "configured": False}, json_output)
         raise typer.Exit(2)
+    registry = SupabaseRegistry.from_settings(settings)
     try:
-        connected = SupabaseRegistry.from_settings(settings).healthcheck()
+        connected = registry.healthcheck()
     except httpx.HTTPError as exc:
         emit({"status": "unavailable", "configured": True, "reason": str(exc)}, json_output)
         raise typer.Exit(1) from exc
+    finally:
+        registry.client.close()
     emit({"status": "connected" if connected else "unauthorized_or_unavailable", "configured": True}, json_output)
     if not connected:
         raise typer.Exit(1)
