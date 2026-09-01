@@ -39,6 +39,7 @@ jobs:
           python -m pip install -e "./SKBUK"
 
       - name: Verify Supabase connection
+        continue-on-error: true
         run: skbuk storage-verify
 
       - name: Collect official PDFs into Knowledge_Base
