@@ -5,6 +5,8 @@ from skbuk.services.allowlist import approve
 from skbuk.services.validator import validate_pdf
 from skbuk.services.snapshot import lock_snapshot
 from skbuk.utils.timestamps import utc_now, iso_z
+from skbuk.settings import Settings
+from skbuk.services.collection import collect as collect_documents
 
 app = typer.Typer(no_args_is_help=True)
 source_app = typer.Typer(no_args_is_help=True)
@@ -32,7 +34,20 @@ def source_validate(url: str, dry_run: bool = True, json_output: bool = typer.Op
 
 @app.command("collect")
 def collect(config: Path = typer.Option(..., "--config"), source: str | None = None, dry_run: bool = False, json_output: bool = typer.Option(False, "--json")) -> None:
-    emit({"status": "planned", "config": str(config), "source": source, "dry_run": dry_run}, json_output)
+    if source is not None:
+        raise typer.BadParameter("source filtering is not yet supported; use an enabled source config")
+    if not config.is_file():
+        raise typer.BadParameter("config must be an existing file")
+    settings = Settings()
+    result = collect_documents(
+        config,
+        Path(settings.skbuk_storage_root),
+        settings.skbuk_user_agent,
+        settings.skbuk_max_download_bytes,
+        settings.skbuk_timeout_seconds,
+        dry_run,
+    )
+    emit(result.as_dict(), json_output)
 
 
 @app.command("extract")
