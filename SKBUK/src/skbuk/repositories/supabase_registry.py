@@ -53,3 +53,16 @@ class SupabaseRegistry:
         )
         response.raise_for_status()
         return response.json()
+
+    def upload_official_pdf(self, storage_path: str, content: bytes) -> None:
+        """Store an original PDF in the private official-source bucket."""
+        if not storage_path.startswith("01_OFFICIAL_SOURCES/") or ".." in storage_path.split("/"):
+            raise ValueError("official storage path is invalid")
+        response = self.client.post(
+            f"{self.base_url}/storage/v1/object/tod-official/{storage_path}",
+            content=content,
+            headers={**self._headers(), "Content-Type": "application/pdf", "x-upsert": "false"},
+        )
+        if response.status_code == 409:
+            return
+        response.raise_for_status()

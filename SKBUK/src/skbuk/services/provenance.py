@@ -9,6 +9,8 @@ from typing import Any, Protocol
 class RegistryWriter(Protocol):
     def insert(self, table: str, payload: dict[str, Any]) -> Any: ...
 
+    def upload_official_pdf(self, storage_path: str, content: bytes) -> None: ...
+
 
 def _iso_now() -> str:
     return datetime.now(UTC).isoformat()
@@ -42,6 +44,9 @@ class ProvenanceWriter:
                 "storage_path": storage_path,
             },
         })
+
+    def upload_pdf(self, storage_path: str, content: bytes) -> None:
+        self.registry.upload_official_pdf(storage_path, content)
 
     def finish(self, status: str, summary: dict[str, int]) -> None:
         if self.run_id is None:

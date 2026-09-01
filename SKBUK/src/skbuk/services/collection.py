@@ -127,7 +127,10 @@ def collect(
                         if target.exists():
                             unchanged += 1
                         elif not dry_run:
-                            write_immutable(storage_root, relative_path, temporary.read_bytes())
+                            content = temporary.read_bytes()
+                            if provenance:
+                                provenance.upload_pdf(relative_path, content)
+                            write_immutable(storage_root, relative_path, content)
                             stored += 1
                             newly_stored = True
                         else:

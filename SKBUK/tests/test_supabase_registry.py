@@ -41,3 +41,20 @@ def test_healthcheck_returns_false_without_supabase_url():
     registry = SupabaseRegistry(httpx.Client(), None, "test-key")
 
     assert not registry.healthcheck()
+
+
+def test_upload_writes_pdf_to_private_official_bucket():
+    def handler(request: httpx.Request) -> httpx.Response:
+        assert request.url.path == "/storage/v1/object/tod-official/01_OFFICIAL_SOURCES/a.pdf"
+        assert request.headers["Content-Type"] == "application/pdf"
+        assert request.headers["x-upsert"] == "false"
+        assert request.content == b"%PDF-1.7\n"
+        return httpx.Response(200)
+
+    registry = SupabaseRegistry(
+        httpx.Client(transport=httpx.MockTransport(handler)),
+        "https://project.supabase.co",
+        "test-key",
+    )
+
+    registry.upload_official_pdf("01_OFFICIAL_SOURCES/a.pdf", b"%PDF-1.7\n")

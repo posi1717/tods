@@ -9,6 +9,9 @@ class FakeRegistry:
         self.calls.append((table, payload))
         return [{"run_id": "00000000-0000-0000-0000-000000000001"}]
 
+    def upload_official_pdf(self, storage_path, content):
+        self.calls.append(("upload", {"storage_path": storage_path, "content": content}))
+
 
 def test_provenance_writes_run_and_reference_only_events():
     registry = FakeRegistry()
