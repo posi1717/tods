@@ -1,10 +1,15 @@
 from pathlib import Path
 import json
 import typer
+import httpx
 from skbuk.services.allowlist import approve
 from skbuk.services.validator import validate_pdf
 from skbuk.services.snapshot import lock_snapshot
 from skbuk.utils.timestamps import utc_now, iso_z
+from skbuk.settings import Settings
+from skbuk.services.collection import collect as collect_documents
+from skbuk.repositories.supabase_registry import SupabaseRegistry
+from skbuk.services.provenance import ProvenanceWriter
 
 app = typer.Typer(no_args_is_help=True)
 source_app = typer.Typer(no_args_is_help=True)
@@ -32,7 +37,28 @@ def source_validate(url: str, dry_run: bool = True, json_output: bool = typer.Op
 
 @app.command("collect")
 def collect(config: Path = typer.Option(..., "--config"), source: str | None = None, dry_run: bool = False, json_output: bool = typer.Option(False, "--json")) -> None:
-    emit({"status": "planned", "config": str(config), "source": source, "dry_run": dry_run}, json_output)
+    if source is not None:
+        raise typer.BadParameter("source filtering is not yet supported; use an enabled source config")
+    if not config.is_file():
+        raise typer.BadParameter("config must be an existing file")
+    settings = Settings()
+    registry = None
+    try:
+        if settings.has_server_credentials and not dry_run:
+            registry = SupabaseRegistry.from_settings(settings)
+        result = collect_documents(
+            config,
+            Path(settings.skbuk_storage_root),
+            settings.skbuk_user_agent,
+            settings.skbuk_max_download_bytes,
+            settings.skbuk_timeout_seconds,
+            dry_run,
+            provenance=ProvenanceWriter(registry) if registry else None,
+        )
+    finally:
+        if registry:
+            registry.client.close()
+    emit(result.as_dict(), json_output)
 
 
 @app.command("extract")
@@ -63,7 +89,24 @@ def snapshot_lock(inspection_run: str = typer.Option(..., "--inspection-run"), v
 
 @app.command("storage-verify")
 def storage_verify(dry_run: bool = False, json_output: bool = typer.Option(False, "--json")) -> None:
-    emit({"status": "private-buckets-required", "dry_run": dry_run}, json_output)
+    settings = Settings()
+    if dry_run:
+        emit({"status": "not_checked", "reason": "dry_run", "configured": settings.has_server_credentials}, json_output)
+        return
+    if not settings.has_server_credentials:
+        emit({"status": "not_configured", "configured": False}, json_output)
+        raise typer.Exit(2)
+    registry = SupabaseRegistry.from_settings(settings)
+    try:
+        connected = registry.healthcheck()
+    except httpx.HTTPError as exc:
+        emit({"status": "unavailable", "configured": True, "reason": str(exc)}, json_output)
+        raise typer.Exit(1) from exc
+    finally:
+        registry.client.close()
+    emit({"status": "connected" if connected else "unauthorized_or_unavailable", "configured": True}, json_output)
+    if not connected:
+        raise typer.Exit(1)
 
 
 @registry_app.command("export")
