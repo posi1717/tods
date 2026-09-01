@@ -25,6 +25,7 @@ src/skbuk/services/discovery.py
 src/skbuk/services/downloader.py
 src/skbuk/services/extractor.py
 src/skbuk/services/hasher.py
+src/skbuk/services/provenance.py
 src/skbuk/services/registry.py
 src/skbuk/services/reporting.py
 src/skbuk/services/robots.py
@@ -44,6 +45,7 @@ tests/test_collection.py
 tests/test_delivery.py
 tests/test_hash_deduplication.py
 tests/test_pdf_validation.py
+tests/test_provenance.py
 tests/test_reports.py
 tests/test_robots.py
 tests/test_snapshot_locking.py

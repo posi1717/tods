@@ -15,6 +15,7 @@ from skbuk.services.allowlist import approve
 from skbuk.services.discovery import discover_links
 from skbuk.services.downloader import download_pdf
 from skbuk.services.delivery import publish_references
+from skbuk.services.provenance import ProvenanceWriter
 from skbuk.services.reporting import write_markdown
 from skbuk.services.robots import check
 from skbuk.services.storage import official_path, write_immutable
@@ -69,6 +70,7 @@ def collect(
     timeout_seconds: float,
     dry_run: bool = False,
     client: httpx.Client | None = None,
+    provenance: ProvenanceWriter | None = None,
 ) -> CollectionResult:
     """Run discovery, policy checks, validation and immutable storage for enabled sources."""
     run_id = datetime.now(UTC).strftime("run-%Y%m%dT%H%M%SZ")
@@ -80,6 +82,8 @@ def collect(
     client = client or httpx.Client(timeout=timeout_seconds, headers={"User-Agent": user_agent})
 
     try:
+        if provenance and not dry_run:
+            provenance.start()
         for source in _load_sources(config_path):
             source_id = str(source["source_id"])
             landing_url = str(source["landing_url"])
@@ -131,6 +135,8 @@ def collect(
                             "sha256": sha256,
                             "storage_path": relative_path,
                         })
+                        if provenance and not dry_run:
+                            provenance.accepted_document(source_id, url, sha256, relative_path)
                 except (httpx.HTTPError, OSError, ValueError) as exc:
                     errors += 1
                     sections["Errors"].append(f"{url}: {exc}")
@@ -149,4 +155,12 @@ def collect(
     ]
     write_markdown(report_path, run_id, sections)
     modules_published = 0 if dry_run else publish_references(storage_root, references)
+    if provenance and not dry_run:
+        provenance.finish("completed" if errors == 0 else "partial", {
+            "discovered": discovered,
+            "stored": stored,
+            "unchanged": unchanged,
+            "rejected": rejected,
+            "errors": errors,
+        })
     return CollectionResult(run_id, sources_checked, discovered, stored, would_store, unchanged, rejected, errors, modules_published, report_path)

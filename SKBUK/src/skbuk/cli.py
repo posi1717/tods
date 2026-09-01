@@ -9,6 +9,7 @@ from skbuk.utils.timestamps import utc_now, iso_z
 from skbuk.settings import Settings
 from skbuk.services.collection import collect as collect_documents
 from skbuk.repositories.supabase_registry import SupabaseRegistry
+from skbuk.services.provenance import ProvenanceWriter
 
 app = typer.Typer(no_args_is_help=True)
 source_app = typer.Typer(no_args_is_help=True)
@@ -41,14 +42,20 @@ def collect(config: Path = typer.Option(..., "--config"), source: str | None = N
     if not config.is_file():
         raise typer.BadParameter("config must be an existing file")
     settings = Settings()
-    result = collect_documents(
-        config,
-        Path(settings.skbuk_storage_root),
-        settings.skbuk_user_agent,
-        settings.skbuk_max_download_bytes,
-        settings.skbuk_timeout_seconds,
-        dry_run,
-    )
+    registry = SupabaseRegistry.from_settings(settings) if settings.has_server_credentials and not dry_run else None
+    try:
+        result = collect_documents(
+            config,
+            Path(settings.skbuk_storage_root),
+            settings.skbuk_user_agent,
+            settings.skbuk_max_download_bytes,
+            settings.skbuk_timeout_seconds,
+            dry_run,
+            provenance=ProvenanceWriter(registry) if registry else None,
+        )
+    finally:
+        if registry:
+            registry.client.close()
     emit(result.as_dict(), json_output)
 
 
