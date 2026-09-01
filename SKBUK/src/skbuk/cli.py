@@ -1,12 +1,14 @@
 from pathlib import Path
 import json
 import typer
+import httpx
 from skbuk.services.allowlist import approve
 from skbuk.services.validator import validate_pdf
 from skbuk.services.snapshot import lock_snapshot
 from skbuk.utils.timestamps import utc_now, iso_z
 from skbuk.settings import Settings
 from skbuk.services.collection import collect as collect_documents
+from skbuk.repositories.supabase_registry import SupabaseRegistry
 
 app = typer.Typer(no_args_is_help=True)
 source_app = typer.Typer(no_args_is_help=True)
@@ -78,7 +80,21 @@ def snapshot_lock(inspection_run: str = typer.Option(..., "--inspection-run"), v
 
 @app.command("storage-verify")
 def storage_verify(dry_run: bool = False, json_output: bool = typer.Option(False, "--json")) -> None:
-    emit({"status": "private-buckets-required", "dry_run": dry_run}, json_output)
+    settings = Settings()
+    if dry_run:
+        emit({"status": "not_checked", "reason": "dry_run", "configured": settings.has_server_credentials}, json_output)
+        return
+    if not settings.has_server_credentials:
+        emit({"status": "not_configured", "configured": False}, json_output)
+        raise typer.Exit(2)
+    try:
+        connected = SupabaseRegistry.from_settings(settings).healthcheck()
+    except httpx.HTTPError as exc:
+        emit({"status": "unavailable", "configured": True, "reason": str(exc)}, json_output)
+        raise typer.Exit(1) from exc
+    emit({"status": "connected" if connected else "unauthorized_or_unavailable", "configured": True}, json_output)
+    if not connected:
+        raise typer.Exit(1)
 
 
 @registry_app.command("export")

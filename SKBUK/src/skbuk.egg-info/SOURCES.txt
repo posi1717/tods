@@ -47,5 +47,6 @@ tests/test_robots.py
 tests/test_snapshot_locking.py
 tests/test_storage_paths.py
 tests/test_storage_rls.py
+tests/test_supabase_registry.py
 tests/test_taxonomy.py
 tests/test_versioning.py
