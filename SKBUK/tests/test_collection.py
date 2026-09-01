@@ -42,6 +42,8 @@ def test_collection_does_not_store_when_robots_disallows(tmp_path: Path):
 
     result = collect(_config(tmp_path / "sources.yaml"), tmp_path / "data", "SKBUK", 1000, 1, client=client)
 
+    assert result.sources_checked == 1
+    assert result.discovered == 0
     assert result.rejected == 1
     assert result.stored == 0
     assert not (tmp_path / "data" / "01_OFFICIAL_SOURCES").exists()
