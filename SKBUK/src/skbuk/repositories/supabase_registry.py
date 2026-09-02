@@ -35,7 +35,7 @@ class SupabaseRegistry:
         if self.base_url is None:
             return False
         response = self.client.get(
-            f"{self.base_url}/rest/v1/tod_ingestion_runs",
+            f"{self.base_url}/rest/v1/runs",
             params={"select": "run_id", "limit": "1"},
             headers=self._headers(),
         )

@@ -5,7 +5,7 @@ from skbuk.repositories.supabase_registry import SupabaseRegistry
 
 def test_healthcheck_uses_protected_registry_table_and_service_headers():
     def handler(request: httpx.Request) -> httpx.Response:
-        assert request.url.path == "/rest/v1/tod_ingestion_runs"
+        assert request.url.path == "/rest/v1/runs"
         assert request.url.params["select"] == "run_id"
         assert request.url.params["limit"] == "1"
         assert request.headers["apikey"] == "test-key"
