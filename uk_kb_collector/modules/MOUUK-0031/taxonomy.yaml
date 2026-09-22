@@ -1,4 +1,2 @@
-taxonomy:
-  - SME
-  - VCSE
-  - reserved-contracts
+# Taxonomy configuration
+categories: []

@@ -1,5 +1,2 @@
-taxonomy:
-  - economic-standing
-  - financial-standing
-  - accounts
-  - turnover
+# Taxonomy configuration
+categories: []

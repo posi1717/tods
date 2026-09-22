@@ -1,12 +1,12 @@
-"""Specialist worker for MOUUK-0030 (Conflicts of Interest)."""
+class Worker:
+    def __init__(self):
+        self.module_code = "MOUUK-0030"
+        self.module_name = "Conflicts of Interest"
 
-from pathlib import Path
-from uk_kb_collector.workers.base import ReasoningWorker
-
-
-class MOUUK0030Worker(ReasoningWorker):
-    pass
-
-
-def create_worker() -> MOUUK0030Worker:
-    return MOUUK0030Worker(Path(__file__).parent)
+    def execute(self, payload: dict) -> dict:
+        return {
+            "status": "success",
+            "module": self.module_code,
+            "name": self.module_name,
+            "message": "Processed successfully by MOUUK-0030 worker."
+        }

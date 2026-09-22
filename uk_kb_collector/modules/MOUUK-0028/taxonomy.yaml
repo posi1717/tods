@@ -1,4 +1,2 @@
-taxonomy:
-  - notices
-  - standstill
-  - remedies
+# Taxonomy configuration
+categories: []

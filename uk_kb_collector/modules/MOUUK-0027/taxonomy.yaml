@@ -1,4 +1,2 @@
-taxonomy:
-  - competitive-flexible-procedure
-  - direct-award
-  - award-criteria
+# Taxonomy configuration
+categories: []

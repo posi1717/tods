@@ -1,4 +1,2 @@
-taxonomy:
-  - conflicts
-  - declarations
-  - mitigation
+# Taxonomy configuration
+categories: []

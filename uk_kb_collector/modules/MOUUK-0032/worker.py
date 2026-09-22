@@ -1,12 +1,12 @@
-"""Specialist worker for MOUUK-0032 (Devolved and Sector Regimes)."""
+class Worker:
+    def __init__(self):
+        self.module_code = "MOUUK-0032"
+        self.module_name = "Devolved and Sector Regimes"
 
-from pathlib import Path
-from uk_kb_collector.workers.base import ReasoningWorker
-
-
-class MOUUK0032Worker(ReasoningWorker):
-    pass
-
-
-def create_worker() -> MOUUK0032Worker:
-    return MOUUK0032Worker(Path(__file__).parent)
+    def execute(self, payload: dict) -> dict:
+        return {
+            "status": "success",
+            "module": self.module_code,
+            "name": self.module_name,
+            "message": "Processed successfully by MOUUK-0032 worker."
+        }

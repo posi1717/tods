@@ -1,4 +1,2 @@
-taxonomy:
-  - below-threshold
-  - covered-procurement
-  - scope
+# Taxonomy configuration
+categories: []

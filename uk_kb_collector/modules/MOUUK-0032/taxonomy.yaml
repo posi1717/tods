@@ -1,4 +1,2 @@
-taxonomy:
-  - devolved-regime
-  - sector-regime
-  - jurisdiction
+# Taxonomy configuration
+categories: []
