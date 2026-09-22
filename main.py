@@ -1,7 +1,61 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
+from SKBUK.skbuk_calibrator import SKBUKCalibrator
+from MOUUK.mouuk_01 import MOUUK01ProcurementAct
 
-app = FastAPI(title="UK Regulatory Gateway", version="1.0.0")
+app = FastAPI(title="UK Regulatory Gateway (Two-Layer Architecture)", version="1.0.0")
+
+# Initialize components
+calibrator = SKBUKCalibrator()
+mouuk_01 = MOUUK01ProcurementAct()
+
+class RegulatoryInput(BaseModel):
+    content: str
+    source: str = "UK Government"
 
 @app.get("/")
 def read_root():
-    return {"status": "online", "message": "Gateway is running successfully"}
+    return {
+        "status": "online",
+        "message": "UK Regulatory Gateway is running successfully",
+        "architecture": "Two-Layer (SKBUK -> MOUUK 1-34)"
+    }
+
+@app.post("/api/v1/process-regulation")
+def process_regulation(data: RegulatoryInput):
+    """
+    Two-Layer Gateway Pipeline:
+    1. Layer 1 (SKBUK): Ingest and Calibrate/Validate Data
+    2. Layer 2 (MOUUK): Route to specific law analysis module
+    """
+    # Step 1: Layer 1 Calibration
+    calibration_result = calibrator.calibrate(data.dict())
+    
+    if not calibration_result["is_passed"]:
+        return {
+            "status": "rejected_at_layer_1",
+            "gateway_layer": "SKBUK",
+            "calibration_details": calibration_result,
+            "message": "Data failed regulatory calibration thresholds."
+        }
+    
+    # Step 2: Layer 2 Routing & Processing
+    target_module = calibration_result.get("target_mouuk_routing")
+    module_output = None
+    
+    if target_module == "MOUUK_01_ProcurementAct":
+        module_output = mouuk_01.process(data.dict())
+    else:
+        module_output = {
+            "module": target_module,
+            "analysis_result": "PENDING_IMPLEMENTATION",
+            "message": "Target MOUUK module structure is ready for expansion."
+        }
+
+    return {
+        "status": "success",
+        "architecture_flow": {
+            "layer_1_skbuk": calibration_result,
+            "layer_2_mouuk": module_output
+        }
+    }
