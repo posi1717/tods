@@ -1,301 +1,134 @@
-# UK Public Sector Procurement PDF Collector
+# TODS Gateway
 
-A Windows-first, Python 3.12+ knowledge-base collector for official UK public procurement PDFs. It discovers PDF links from configured official landing pages, validates and hashes files, classifies them into a controlled folder structure, preserves previous versions, and writes a CSV/JSON registry plus per-run logs and Markdown reports.
+**TODS Gateway is the regulatory and document-assurance gateway for public-service work.** It is the first controlled entry point for people, products, and AI agents that need to use rules, guidance, evidence, documents, or reports—and the final assurance checkpoint before material outputs are relied upon.
 
-## Scope and compliance
+TODS is designed to be direct about evidence. It must distinguish sourced facts from interpretation, expose uncertainty and limitations, retain provenance, and require human review when the available evidence cannot support a dependable answer.
 
-This collector is designed for public, official sources only. It allowlists `gov.uk`, `*.gov.uk`, `legislation.gov.uk`, and `*.legislation.gov.uk` by default. It refuses a source when `robots.txt` cannot be read or says the collector is disallowed.
+## Mission
 
-The software does not attempt to bypass authentication, paywalls, CAPTCHAs, anti-bot systems, or access controls. It does not automatically delete prior documents. It stores source URLs, landing pages, timestamps, hashes, ETags and HTTP Last-Modified values in the registry.
+Every TODS-connected project should pass regulated questions, material documents, reports, and agent actions through a consistent assurance boundary:
 
-This is a knowledge-base collector, not legal advice. Government guidance and legislation can be amended or replaced. Always verify the current version on the official source before using a document operationally.
+1. Identify the caller, intended use, and applicable scope.
+2. verify source authority, document identity, version, and freshness.
+3. bind material claims to traceable evidence.
+4. apply the appropriate specialist MOUUK module and policy controls.
+5. return a clear assurance outcome, limitations, and audit reference.
+6. require accountable human approval where risk or policy requires it.
 
-## Verified repository status - 30 August 2026
-
-- MOUUK contains 34 configured modules, `MOUUK-0001` through `MOUUK-0034`.
-- The latest recorded collector report checked 438 URLs, found 421 PDF links, recorded 0 new and 0 updated files, and recorded 20 robots-policy refusals.
-- The current checkout contains 0 PDF files and an empty `Knowledge_Base/10_Metadata/document_registry.csv`/`.json`. The recorded collector result therefore does not prove that a complete document corpus is present in this checkout.
-- No duplicate files were found in the current `Knowledge_Base` checkout by filename or SHA-256 content hash. Historical run reports are retained as audit records and are not duplicate source documents.
-- Currency is only verified for URLs successfully checked by the latest run. The 20 robots-policy refusals remain unverified until an authorised source-access path is available.
+TODS is not a substitute for legal advice or an accountable public authority. It is an evidence-first control and assurance system.
 
 ## Architecture
 
-`discover -> robots/rate-limit gate -> PDF download -> PDF/magic-byte validation -> SHA-256 -> metadata/text probe -> relevance classification -> version/archive -> registry -> report`
-
-The package is organised into three layers:
-
-- `core/`: orchestration contracts and the canonical MOUUK module registry;
-- `workers/`: 34 independent knowledge and reasoning API plugins using a shared contract;
-- `intelligence/`: authority, temporal, relationship and evidence engines.
-
-Collection and reasoning are deliberately separated. The existing discovery and
-collector pipeline is the ingestion service: it finds, validates, versions and registers
-official documents. The 34 plugins do not crawl the web. They receive selected registry
-evidence through `ReasoningRequest`, apply their own specialist rules and taxonomy, and
-return a standard `ReasoningResponse` containing reasoning steps, citations, confidence
-and a review flag.
-
-Stable module identities are defined in `uk_kb_collector/modules.yaml`. Codes are never
-reused after publication. Every entry from MOUUK-0001 through MOUUK-0034 is independently
-loadable and owns its manifest, sources, rules, taxonomy and reasoning worker. TOMs retains
-its semantic relationship to Social Value without sharing its worker implementation.
-
-Key modules:
-
-- `discover.py`: fetches configured official collection/landing pages and finds PDF links.
-- `http.py`: polite HTTP client with per-domain throttling, retries and robots handling.
-- `pdf.py`: streaming-safe validation and bounded PDF metadata/text extraction.
-- `categorize.py`: deterministic title/URL/content-based categorisation and relevance tags.
-- `registry.py`: CSV/JSON registry indexed by URL, hash and filename.
-- `collector.py`: versioning, archive and storage orchestration.
-- `report.py`: per-run Markdown report.
-- `main.py`: CLI entry point.
-
-## Project structure
-
 ```text
-uk-kb-public-sector-collector/
-├── config.yaml
-├── requirements.txt
-├── README.md
-├── .gitignore
-├── scripts/
-│   └── run_collector.ps1
-├── uk_kb_collector/
-│   ├── __init__.py
-│   ├── categorize.py
-│   ├── collector.py
-│   ├── config.py
-│   ├── discover.py
-│   ├── http.py
-│   ├── main.py
-│   ├── models.py
-│   ├── pdf.py
-│   ├── registry.py
-│   ├── report.py
-│   └── utils.py
-└── tests/
-    └── test_core.py
+Person / Product / AI Agent
+             |
+             v
++---------------------------------------------+
+|                 TODS Gateway                |
+| identity | scope | policy | audit | outcome |
++---------------------------------------------+
+             |
+       +-----+-----+
+       |           |
+       v           v
++-------------+  +----------------------------+
+|    SKBUK    |  |           MOUUK            |
+| acquisition |  | 34 specialist modules      |
+| custody      |  | rules, analysis, evidence  |
+| provenance   |  | and review requirements    |
+| calibration  |  +----------------------------+
++-------------+
+       |           |
+       +-----+-----+
+             v
+ Evidence bundle -> claim -> assurance outcome -> audit record
 ```
 
-The collector creates this runtime tree under `~/Desktop/UK-KB-PUBLIC Sector`:
+- **TODS Gateway** is the control plane and common interface.
+- **SKBUK** is the governed acquisition, custody, provenance, versioning, and initial calibration layer. The original UK public-sector procurement collector remains an essential subsystem here.
+- **MOUUK** is the specialist knowledge and reasoning layer. Stable module identities are defined by `uk_kb_collector/modules.yaml` from `MOUUK-0001` through `MOUUK-0034`.
+
+See [the architecture record](docs/architecture/TODS_GATEWAY_ARCHITECTURE_RECORD.md) for boundaries and trust rules.
+
+## Current baseline
+
+The repository currently contains two related implementation paths:
+
+- `main.py` exposes the initial FastAPI gateway with `GET /` and `POST /api/v1/process-regulation`.
+- `uk_kb_collector/` contains the mature collector, evidence/provenance contracts, the canonical 34-module registry, and independently loadable specialist workers.
+
+The present gateway route performs keyword-based SKBUK calibration and implements direct specialist processing for MOUUK-0001. Other routes/modules must not be described as production assurance until their evidence, policy, tests, and audit controls satisfy the deployment gates.
+
+## Assurance language
+
+TODS documentation and APIs use these target outcomes:
+
+- `VERIFIED`
+- `VERIFIED_WITH_LIMITATIONS`
+- `NEEDS_HUMAN_REVIEW`
+- `INSUFFICIENT_EVIDENCE`
+- `STALE_SOURCE_RISK`
+- `OUT_OF_SCOPE`
+- `BLOCKED`
+
+The current baseline does **not** yet issue production-grade `VERIFIED` decisions. Until the required controls are implemented, consequential outputs must default to review rather than implied certainty.
+
+## Repository map
 
 ```text
-00_Inbox/
-01_Legislation/
-  Procurement_Act_2023/
-  Procurement_Regulations_2024/
-  Legacy_Regulations/
-  Other_Relevant_Legislation/
-02_Statutory_Guidance/
-03_Procurement_Policy_Notes/
-04_NPPS_and_Government_Policy/
-05_Cabinet_Office_Guidance/
-  Plan/
-  Define/
-  Procure/
-  Manage/
-06_Frameworks_Standards_Playbooks/
-07_Templates_and_Model_Documents/
-08_Archive/
-09_Logs/
-10_Metadata/
-  document_registry.csv
-  document_registry.json
+.
+├── main.py                         # Initial FastAPI gateway
+├── SKBUK/                          # SKBUK service/calibration implementation
+├── MOUUK/                          # Early direct MOUUK integration
+├── uk_kb_collector/                # Collector, contracts, modules, workers
+├── Knowledge_Base/                 # Governed knowledge-base workspace
+├── docs/
+│   ├── architecture/               # Canonical system architecture
+│   ├── governance/                 # Document and trust governance
+│   ├── operations/                 # API and collector operations
+│   └── archive/                    # Non-canonical historical notes
+├── supabase/                       # Database migrations
+└── tests/                          # Architecture, schema, and governance tests
 ```
 
-## Official seed sources
+## Install and test
 
-The default configuration includes:
+Python 3.12 is used by CI.
 
-- Procurement Act 2023 guidance collection.
-- Procurement Policy Notes collection.
-- Public procurement policy.
-- Transforming Public Procurement collection.
-- Procurement Act 2023.
-- Procurement Regulations 2024.
-- Public Contracts Regulations 2015.
-- Utilities Contracts Regulations 2016.
-- Concession Contracts Regulations 2016.
-- Defence and Security Public Contracts Regulations 2011.
-- Public Services (Social Value) Act 2012.
-
-The GOV.UK Procurement Act guidance collection is organised into Plan, Define, Procure and Manage phases. The official page was updated during 2026, including changes to the guidance set. The PPN collection was also updated in June 2026. See the official source pages when reviewing current material.
-
-## Installation on Windows
-
-Open PowerShell in this project directory.
-
-```powershell
-py -3.12 -m venv .venv
-.\.venv\Scripts\Activate.ps1
+```bash
+python -m venv .venv
+# Windows: .\.venv\Scripts\Activate.ps1
+# macOS/Linux: source .venv/bin/activate
 python -m pip install --upgrade pip
 pip install -r requirements.txt
-```
-
-Run unit tests:
-
-```powershell
+pip install -e "./SKBUK[test]"
 python -m pytest -q
 ```
 
-## First run: dry-run
+Run the initial gateway:
 
-Dry-run is enabled by default in `config.yaml`. It temporarily downloads PDFs for
-validation and classification, then deletes those temporary copies. It does not retain
-collected PDFs or add new document records, but it does create runtime directories,
-logs, reports and registry files.
+```bash
+uvicorn main:app --reload
+```
 
-```powershell
+Run the collector in dry-run mode:
+
+```bash
 python -m uk_kb_collector.main --dry-run
 ```
 
-Review:
+See [collector operations](docs/operations/COLLECTOR_OPERATIONS.md) before running production collection.
 
-```text
-Desktop\UK-KB-PUBLIC Sector\09_Logs\run_*.log
-Desktop\UK-KB-PUBLIC Sector\09_Logs\report_*.md
-```
+## Canonical documents
 
-## Production mode
+- [Master change list](docs/MASTER_CHANGE_LIST.md)
+- [Architecture record](docs/architecture/TODS_GATEWAY_ARCHITECTURE_RECORD.md)
+- [Canonical document register](docs/governance/CANONICAL_DOCUMENT_REGISTER.md)
+- [API deployment register](docs/operations/API_DEPLOYMENT_REGISTER.md)
+- [MOUUK module catalogue](docs/MOUUK_MODULE_CATALOGUE.md)
+- [Registry schema](docs/REGISTRY_SCHEMA.md)
+- [SKBUK architecture](SKBUK_ARCHITECTURE.md)
 
-After reviewing the dry-run output:
+## Change safety
 
-```powershell
-python -m uk_kb_collector.main --production
-```
-
-Or set `dry_run: false` in `config.yaml` and run without an override.
-
-## Registry and versioning behaviour
-
-Each source PDF URL has a stable URL-derived identity for its first active version. When a URL returns the same hash, the run is recorded as checked and the file is skipped. When a URL returns a different hash, the previous file is moved to `08_Archive/` and the newly downloaded copy receives the next `vX` filename plus an immutable version record id. Old registry rows remain present and are marked `superseded`.
-
-The collector does not claim a publication date unless a source parser supplies one. In this baseline implementation, unknown publication dates are written as `undated`, while HTTP `Last-Modified` is retained separately in metadata.
-
-## Windows Task Scheduler — every 2 hours
-
-1. Create the project at a permanent location, for example `C:\Users\<you>\Documents\uk-kb-public-sector-collector`.
-2. Confirm the virtual environment exists at `.venv`.
-3. Test production mode manually once.
-4. Open **Task Scheduler** -> **Create Task...**.
-5. **General** tab:
-   - Name: `UK Procurement KB Collector`
-   - Select **Run whether user is logged on or not**.
-   - Select **Run with highest privileges** only if your corporate policy requires it; the collector itself normally does not need elevation.
-6. **Triggers** -> **New...**:
-   - Begin the task: `On a schedule`.
-   - Daily.
-   - Set a convenient start time.
-   - Check **Repeat task every: 2 hours** for a duration of **Indefinitely**.
-   - Ensure the trigger is enabled.
-7. **Actions** -> **New...**:
-   - Action: `Start a program`.
-   - Program/script: `C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe`
-   - Add arguments:
-     `-NoProfile -ExecutionPolicy Bypass -File "C:\PATH\TO\uk-kb-public-sector-collector\scripts\run_collector.ps1" -Production`
-   - Start in:
-     `C:\PATH\TO\uk-kb-public-sector-collector`
-8. **Conditions**: optionally uncheck the AC power restriction if you need the task to run on battery.
-9. **Settings**:
-   - Allow task to be run on demand.
-   - If the task fails, restart it after 5 minutes; choose a small retry count if required.
-   - Avoid overlapping runs by enabling **Do not start a new instance** if one is already running.
-10. Save the task. Windows will request the account password for the selected non-interactive logon mode.
-
-The PowerShell launcher changes directory to the project first, so the virtual environment and relative paths work correctly. Python stdout/stderr are also mirrored into `09_Logs/run_*.log` by the application. Task Scheduler history can be enabled for execution diagnostics.
-
-### Alternative: run the Python interpreter directly
-
-You can set **Program/script** to:
-
-```text
-C:\PATH\TO\uk-kb-public-sector-collector\.venv\Scripts\python.exe
-```
-
-Arguments:
-
-```text
--m uk_kb_collector.main --production
-```
-
-Start in:
-
-```text
-C:\PATH\TO\uk-kb-public-sector-collector
-```
-
-This is the simplest Task Scheduler configuration because it does not rely on shell activation.
-
-## macOS launchd
-
-Use a user LaunchAgent at `~/Library/LaunchAgents/com.local.uk-procurement-kb.plist` and invoke the virtualenv Python directly.
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-  <key>Label</key><string>com.local.uk-procurement-kb</string>
-  <key>ProgramArguments</key>
-  <array>
-    <string>/Users/YOU/PATH/uk-kb-public-sector-collector/.venv/bin/python</string>
-    <string>-m</string><string>uk_kb_collector.main</string><string>--production</string>
-  </array>
-  <key>WorkingDirectory</key><string>/Users/YOU/PATH/uk-kb-public-sector-collector</string>
-  <key>StartInterval</key><integer>7200</integer>
-  <key>RunAtLoad</key><true/>
-  <key>StandardOutPath</key><string>/Users/YOU/PATH/uk-kb-public-sector-collector/09_stdout.log</string>
-  <key>StandardErrorPath</key><string>/Users/YOU/PATH/uk-kb-public-sector-collector/09_stderr.log</string>
-</dict>
-</plist>
-```
-
-Load it with:
-
-```bash
-launchctl load ~/Library/LaunchAgents/com.local.uk-procurement-kb.plist
-```
-
-## Linux cron
-
-Edit the user's crontab:
-
-```bash
-crontab -e
-```
-
-Every two hours:
-
-```cron
-0 */2 * * * cd /path/to/uk-kb-public-sector-collector && /path/to/uk-kb-public-sector-collector/.venv/bin/python -m uk_kb_collector.main --production >> /path/to/uk-kb-public-sector-collector/cron_stdout.log 2>> /path/to/uk-kb-public-sector-collector/cron_stderr.log
-```
-
-For a workstation daemon with better restart semantics, use a `systemd` user timer instead of cron.
-
-## Configuration
-
-Edit `config.yaml` rather than Python code to change:
-
-- source URLs and category hints;
-- keywords and exclusions;
-- allowed domains;
-- destination directory;
-- polling interval metadata;
-- request timeout/retry/backoff controls;
-- PDF size limits;
-- dry-run/production default.
-
-The collector intentionally does not use search-engine scraping as its source of truth. External sources can be used manually to discover an official landing page, after which that official URL can be added to `sources:`.
-
-## Operational notes
-
-- `robots.txt` is checked before each source/download URL.
-- Requests to the same domain are throttled to at least the configured delay.
-- Downloads use timeouts, bounded retries and exponential backoff.
-- PDF streaming enforces a maximum file size.
-- PDF magic bytes and Content-Type are checked before storage.
-- The code never deletes an archived document automatically.
-- A file is never replaced in-place when its hash changes.
-- Classification is deterministic and conservative; uncertain documents go to `00_Inbox` with `NEEDS_REVIEW`.
-- The collector does not summarise or alter legal content during collection.
+This baseline preserves the collector, SKBUK, all 34 stable MOUUK identities, source manifests, migrations, evidence records, tests, and historical Git record. Runtime logs, temporary downloads, caches, credentials, and build artefacts must not be committed. Destructive cleanup requires a separate dependency and retention review.
