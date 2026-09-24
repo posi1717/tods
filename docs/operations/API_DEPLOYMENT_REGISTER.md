@@ -3,25 +3,41 @@
 Status: **CANONICAL OPERATIONAL**  
 Source of executable truth: `main.py` on the corresponding release commit
 
-This register separates routes that exist from capabilities that are planned. A route is not production assurance merely because it is executable.
+This register separates routes that exist from capabilities that are planned. A route or polished interface is not production assurance merely because it is executable.
 
 ## Current routes
 
 | Method | Path | Implementation | Lifecycle | Assurance status |
 |---|---|---|---|---|
-| `GET` | `/` | `main.read_root` | Baseline | Informational only |
+| `GET` | `/` | Enterprise assurance console | Service baseline | User interface; no independent assurance authority |
+| `GET` | `/api/v1/status` | `main.service_status` | Service baseline | Machine-readable capability and control status |
 | `POST` | `/api/v1/process-regulation` | `main.process_regulation` | Baseline | Experimental; human review required |
 
-Framework-generated OpenAPI and documentation routes are not counted as TODS business APIs.
+Static assets are served under `/static`. Framework-generated OpenAPI and documentation routes are not counted as TODS business APIs.
+
+## Enterprise console
+
+The root console provides a responsive, dependency-free interface for:
+
+- checking live service and capability status;
+- submitting source-labelled regulatory material;
+- viewing calibration score, flags, routing, outcome, and correlation ID;
+- displaying the mandatory human-review warning;
+- copying or downloading the JSON decision-support record;
+- opening the generated API reference.
+
+The interface deliberately shows incomplete control states. It does not display invented users, production audit history, fake evidence counts, or a false verified outcome.
 
 ## Current processing path
 
 ```text
 RegulatoryInput
+  -> request correlation ID
   -> SKBUKCalibrator.calibrate
   -> reject when baseline threshold fails
   -> direct MOUUK-0001 processing when Procurement Act routing matches
   -> pending-implementation response for other target routes
+  -> human-review-required decision-support record
 ```
 
 Current calibration uses document length and a small keyword set. It does not yet verify authoritative source identity, document hash/version, freshness, evidence linkage, authorization, or a durable audit record. Therefore, the endpoint must not claim a production-grade verified outcome.

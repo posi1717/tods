@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="TODS Gateway enterprise regulatory and document assurance console">
+  <title>TODS Gateway | Assurance Console</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#workspace">Skip to workspace</a>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">T</div>
+        <div><strong>TODS</strong><span>Gateway</span></div>
+      </div>
+      <nav>
+        <a class="nav-item active" href="#workspace"><span>01</span>Assurance workspace</a>
+        <a class="nav-item" href="#service"><span>02</span>Service controls</a>
+        <a class="nav-item" href="#result"><span>03</span>Decision record</a>
+      </nav>
+      <div class="sidebar-foot">
+        <div class="environment"><i></i>Baseline environment</div>
+        <p>Human review is mandatory for consequential use.</p>
+      </div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Regulatory intelligence</p>
+          <h1>Assurance Console</h1>
+        </div>
+        <div class="top-actions">
+          <a class="ghost-button" href="/docs" target="_blank" rel="noreferrer">API reference</a>
+          <div id="service-pill" class="service-pill checking"><span></span>Checking service</div>
+        </div>
+      </header>
+
+      <section id="service" class="status-grid" aria-label="Service status">
+        <article class="metric-card">
+          <div class="metric-label">Gateway</div>
+          <div id="gateway-state" class="metric-value">Checking</div>
+          <p>Live FastAPI service</p>
+        </article>
+        <article class="metric-card">
+          <div class="metric-label">MOUUK catalogue</div>
+          <div id="module-count" class="metric-value">34</div>
+          <p>Stable specialist identities</p>
+        </article>
+        <article class="metric-card warning-card">
+          <div class="metric-label">Assurance mode</div>
+          <div class="metric-value">Human review</div>
+          <p>No automatic production verification</p>
+        </article>
+        <article class="metric-card">
+          <div class="metric-label">Direct route</div>
+          <div class="metric-value">MOUUK-0001</div>
+          <p>Procurement Act baseline</p>
+        </article>
+      </section>
+
+      <section id="workspace" class="workspace-grid">
+        <article class="panel input-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">New assessment</p>
+              <h2>Submit regulatory material</h2>
+            </div>
+            <span class="step">Step 1 of 2</span>
+          </div>
+
+          <div class="notice" role="note">
+            <strong>Evidence-first baseline</strong>
+            <span>Provide enough context to calibrate the material. The result is decision support, not legal advice.</span>
+          </div>
+
+          <form id="assurance-form">
+            <label for="source">Source or authority</label>
+            <input id="source" name="source" type="text" value="UK Government" maxlength="500" autocomplete="off">
+
+            <div class="label-row">
+              <label for="content">Regulatory content</label>
+              <button id="load-example" class="text-button" type="button">Load example</button>
+            </div>
+            <textarea id="content" name="content" rows="13" maxlength="100000" placeholder="Paste the provision, policy extract, document context, or regulatory question to assess..." required></textarea>
+            <div class="field-meta"><span id="char-count">0 characters</span><span>Recommended minimum: 150</span></div>
+
+            <div class="form-actions">
+              <button id="clear-form" class="secondary-button" type="button">Clear</button>
+              <button id="submit-button" class="primary-button" type="submit">
+                <span class="button-label">Run assurance check</span>
+                <span class="button-loader" aria-hidden="true"></span>
+              </button>
+            </div>
+          </form>
+        </article>
+
+        <article id="result" class="panel result-panel" aria-live="polite">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Decision support</p>
+              <h2>Assessment record</h2>
+            </div>
+            <span class="step">Step 2 of 2</span>
+          </div>
+
+          <div id="empty-state" class="empty-state">
+            <div class="empty-icon" aria-hidden="true">⌁</div>
+            <h3>No assessment yet</h3>
+            <p>Submit regulatory material to view calibration, routing, limitations, and the review requirement.</p>
+          </div>
+
+          <div id="result-content" class="result-content" hidden>
+            <div class="decision-header">
+              <div>
+                <p class="eyebrow">Outcome</p>
+                <h3 id="decision-status">—</h3>
+              </div>
+              <span id="decision-badge" class="decision-badge">—</span>
+            </div>
+
+            <dl class="decision-grid">
+              <div><dt>Correlation ID</dt><dd id="correlation-id">—</dd></div>
+              <div><dt>Source</dt><dd id="result-source">—</dd></div>
+              <div><dt>Calibration score</dt><dd id="calibration-score">—</dd></div>
+              <div><dt>Target module</dt><dd id="target-module">—</dd></div>
+            </dl>
+
+            <div class="review-banner">
+              <span class="review-icon" aria-hidden="true">!</span>
+              <div><strong>Accountable review required</strong><p>This baseline cannot authorize or certify a consequential decision.</p></div>
+            </div>
+
+            <div class="result-section">
+              <h4>Flags and limitations</h4>
+              <ul id="flags-list" class="tag-list"></ul>
+            </div>
+
+            <div class="result-section">
+              <div class="section-row"><h4>Technical record</h4><button id="copy-result" class="text-button" type="button">Copy JSON</button></div>
+              <pre id="raw-result"></pre>
+            </div>
+
+            <button id="download-result" class="secondary-button full-width" type="button">Download decision record</button>
+          </div>
+        </article>
+      </section>
+
+      <footer>
+        <span>TODS Gateway v<span id="service-version">1.1.0</span></span>
+        <span>SKBUK custody · MOUUK specialist routing · human accountability</span>
+      </footer>
+    </main>
+  </div>
+  <script src="/static/app.js" defer></script>
+</body>
+</html>
