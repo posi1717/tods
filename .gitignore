@@ -1,14 +1,50 @@
+# Python environments and caches
 .venv/
 .venv-*/
+venv/
 __pycache__/
 *.py[cod]
 .pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage/
+htmlcov/
+*.egg-info/
+
+# Secrets and local configuration
 .env
 .env.*
 !.env.example
+*.pem
+*.key
+credentials*.json
+service-account*.json
+
+# JavaScript and generated builds
 node_modules/
 dist/
 build/
-coverage/
+
+# Platform and editor state
+.DS_Store
+Thumbs.db
+.vscode/*.local.json
+
+# Supabase local state
 supabase/.temp/
+
+# Collector runtime artefacts
 00_Inbox/.tmp/
+Knowledge_Base/00_Inbox/.tmp/
+Knowledge_Base/00_Inbox/**/*.download
+Knowledge_Base/09_Logs/*.log
+Knowledge_Base/09_Logs/**/run_*.log
+
+# Local runtime output
+*.tmp
+*.download
+cron_stdout.log
+cron_stderr.log
+09_stdout.log
+09_stderr.log
