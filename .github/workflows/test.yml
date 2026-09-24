@@ -1,9 +1,13 @@
-name: UKKB tests
+name: TODS verification
 
 on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   test:
@@ -13,6 +17,44 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install -r requirements.txt
-      - run: pip install -e "./SKBUK[test]"
-      - run: python -m pytest -q
+          cache: pip
+      - name: Install runtime and test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip install -e "./SKBUK[test]"
+          python -m pip check
+      - name: Run repository tests
+        run: python -m pytest -q
+
+  container-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build service image
+        run: docker build --tag tods-gateway:test .
+      - name: Start service container
+        run: docker run --detach --name tods-gateway --publish 8000:8000 tods-gateway:test
+      - name: Verify status and console
+        run: |
+          python - <<'PY'
+          import json
+          import time
+          import urllib.request
+
+          for attempt in range(30):
+              try:
+                  status = json.load(urllib.request.urlopen("http://127.0.0.1:8000/api/v1/status", timeout=3))
+                  console = urllib.request.urlopen("http://127.0.0.1:8000/", timeout=3).read().decode("utf-8")
+                  assert status["status"] == "online"
+                  assert status["controls"]["human_review"] == "required"
+                  assert "TODS Gateway | Assurance Console" in console
+                  break
+              except Exception:
+                  if attempt == 29:
+                      raise
+                  time.sleep(1)
+          PY
+      - name: Show logs on failure
+        if: failure()
+        run: docker logs tods-gateway

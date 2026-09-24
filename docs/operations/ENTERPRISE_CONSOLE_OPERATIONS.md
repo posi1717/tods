@@ -17,11 +17,26 @@ uvicorn main:app --host 127.0.0.1 --port 8000
 
 Open `http://127.0.0.1:8000/`. API documentation is available at `/docs`; machine-readable service status is available at `/api/v1/status`.
 
+## Container start
+
+```bash
+docker compose up --build
+```
+
+The container runs as an unprivileged user, listens on port 8000, and has a health check against `/api/v1/status`. For a direct image run:
+
+```bash
+docker build -t tods-gateway:baseline .
+docker run --rm -p 8000:8000 tods-gateway:baseline
+```
+
 ## Release check
 
 ```bash
 python -m pytest -q
 ```
+
+The GitHub verification workflow installs root and `SKBUK[test]` dependencies, runs the full repository suite, builds the service image, launches it, and checks both the JSON status route and enterprise console. A green workflow validates the committed service baseline; it does not certify external production controls.
 
 Before any external service launch, verify:
 
