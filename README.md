@@ -2,18 +2,42 @@
 
 **TODS Gateway is the regulatory and document-assurance gateway for public-service work.** It is the first controlled entry point for people, products, and AI agents that need to use rules, guidance, evidence, documents, or reports—and the final assurance checkpoint before material outputs are relied upon.
 
-TODS is designed to be direct about evidence. It must distinguish sourced facts from interpretation, expose uncertainty and limitations, retain provenance, and require human review when the available evidence cannot support a dependable answer.
+TODS is designed to be direct about evidence. It distinguishes sourced facts from interpretation, exposes uncertainty and limitations, retains provenance, and requires human review when the available evidence cannot support a dependable answer.
+
+## Enterprise console
+
+The repository includes a responsive enterprise assurance console backed by the executable FastAPI service.
+
+```bash
+python -m venv .venv
+# Windows: .\.venv\Scripts\Activate.ps1
+# macOS/Linux: source .venv/bin/activate
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+pip install -e "./SKBUK[test]"
+uvicorn main:app --host 127.0.0.1 --port 8000
+```
+
+Open `http://127.0.0.1:8000/`. The UI can submit source-labelled material, display actual calibration/routing results, preserve a correlation ID, and export the decision-support record. Every consequential result remains explicitly subject to accountable human review.
+
+Container start:
+
+```bash
+docker compose up --build
+```
+
+See [enterprise console operations](docs/operations/ENTERPRISE_CONSOLE_OPERATIONS.md) and [service readiness](docs/operations/SERVICE_READINESS.md) before deployment.
 
 ## Mission
 
 Every TODS-connected project should pass regulated questions, material documents, reports, and agent actions through a consistent assurance boundary:
 
 1. Identify the caller, intended use, and applicable scope.
-2. verify source authority, document identity, version, and freshness.
-3. bind material claims to traceable evidence.
-4. apply the appropriate specialist MOUUK module and policy controls.
-5. return a clear assurance outcome, limitations, and audit reference.
-6. require accountable human approval where risk or policy requires it.
+2. Verify source authority, document identity, version, and freshness.
+3. Bind material claims to traceable evidence.
+4. Apply the appropriate specialist MOUUK module and policy controls.
+5. Return a clear assurance outcome, limitations, and audit reference.
+6. Require accountable human approval where risk or policy requires it.
 
 TODS is not a substitute for legal advice or an accountable public authority. It is an evidence-first control and assurance system.
 
@@ -50,14 +74,14 @@ Person / Product / AI Agent
 
 See [the architecture record](docs/architecture/TODS_GATEWAY_ARCHITECTURE_RECORD.md) for boundaries and trust rules.
 
-## Current baseline
+## Current service baseline
 
-The repository currently contains two related implementation paths:
+- `GET /` serves the enterprise assurance console.
+- `GET /api/v1/status` reports the current service capabilities and missing controls.
+- `POST /api/v1/process-regulation` performs baseline SKBUK calibration and direct specialist processing for MOUUK-0001.
+- `uk_kb_collector/` provides the collector, evidence/provenance contracts, canonical 34-module registry, and independently loadable specialist workers.
 
-- `main.py` exposes the initial FastAPI gateway with `GET /` and `POST /api/v1/process-regulation`.
-- `uk_kb_collector/` contains the mature collector, evidence/provenance contracts, the canonical 34-module registry, and independently loadable specialist workers.
-
-The present gateway route performs keyword-based SKBUK calibration and implements direct specialist processing for MOUUK-0001. Other routes/modules must not be described as production assurance until their evidence, policy, tests, and audit controls satisfy the deployment gates.
+Other routes and modules must not be described as production assurance until their evidence, policy, authentication, tests, audit controls, and deployment gates are satisfied.
 
 ## Assurance language
 
@@ -71,45 +95,38 @@ TODS documentation and APIs use these target outcomes:
 - `OUT_OF_SCOPE`
 - `BLOCKED`
 
-The current baseline does **not** yet issue production-grade `VERIFIED` decisions. Until the required controls are implemented, consequential outputs must default to review rather than implied certainty.
+The current baseline does **not** issue production-grade `VERIFIED` decisions. Until the required controls are implemented, consequential outputs default to review rather than implied certainty.
 
 ## Repository map
 
 ```text
 .
-├── main.py                         # Initial FastAPI gateway
+├── main.py                         # FastAPI gateway and console routes
+├── static/                         # Enterprise console HTML, CSS, JavaScript
+├── Dockerfile                      # Non-root service image
+├── compose.yaml                    # Local/container service definition
 ├── SKBUK/                          # SKBUK service/calibration implementation
-├── MOUUK/                          # Early direct MOUUK integration
+├── MOUUK/                          # Direct MOUUK integration
 ├── uk_kb_collector/                # Collector, contracts, modules, workers
 ├── Knowledge_Base/                 # Governed knowledge-base workspace
 ├── docs/
 │   ├── architecture/               # Canonical system architecture
 │   ├── governance/                 # Document and trust governance
-│   ├── operations/                 # API and collector operations
+│   ├── operations/                 # API, console, and collector operations
 │   └── archive/                    # Non-canonical historical notes
-├── supabase/                       # Database migrations
-└── tests/                          # Architecture, schema, and governance tests
+├── supabase/                       # Database migration history
+└── tests/                          # Runtime, architecture, schema, and governance tests
 ```
 
-## Install and test
+## Test
 
 Python 3.12 is used by CI.
 
 ```bash
-python -m venv .venv
-# Windows: .\.venv\Scripts\Activate.ps1
-# macOS/Linux: source .venv/bin/activate
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-pip install -e "./SKBUK[test]"
 python -m pytest -q
 ```
 
-Run the initial gateway:
-
-```bash
-uvicorn main:app --reload
-```
+The current branch passes 67 tests in a clean checkout with declared root and `SKBUK[test]` dependencies installed. The service console, status endpoint, and regulatory assessment path also pass a live local smoke test.
 
 Run the collector in dry-run mode:
 
@@ -124,7 +141,11 @@ See [collector operations](docs/operations/COLLECTOR_OPERATIONS.md) before runni
 - [Master change list](docs/MASTER_CHANGE_LIST.md)
 - [Architecture record](docs/architecture/TODS_GATEWAY_ARCHITECTURE_RECORD.md)
 - [Canonical document register](docs/governance/CANONICAL_DOCUMENT_REGISTER.md)
+- [Data governance and lifecycle](docs/governance/DATA_GOVERNANCE_AND_LIFECYCLE.md)
+- [Configuration precedence](docs/governance/CONFIGURATION_PRECEDENCE.md)
 - [API deployment register](docs/operations/API_DEPLOYMENT_REGISTER.md)
+- [Enterprise console operations](docs/operations/ENTERPRISE_CONSOLE_OPERATIONS.md)
+- [Service readiness](docs/operations/SERVICE_READINESS.md)
 - [MOUUK module catalogue](docs/MOUUK_MODULE_CATALOGUE.md)
 - [Registry schema](docs/REGISTRY_SCHEMA.md)
 - [SKBUK architecture](SKBUK_ARCHITECTURE.md)

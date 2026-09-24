@@ -23,11 +23,11 @@ This list controls the transition from the original collector-focused repository
 - [x] Verify the executable FastAPI routes in `main.py`.
 - [x] Identify `uk_kb_collector/modules.yaml` as the canonical 34-module catalogue.
 - [x] Confirm architecture/governance tests assert 34 stable and independently loadable modules.
-- [x] Record the gap between the two-route gateway baseline and the wider collector/plugin architecture.
+- [x] Record the gap between the gateway baseline and the wider collector/plugin architecture.
 - [x] Verify configuration precedence across `config.yaml`, `sources.yml`, `classification.yml`, package settings, and environment variables.
 - [x] Reconcile the early `MOUUK/mouuk_registry.py` subset with the canonical YAML registry without deleting either path prematurely.
 
-## Batch B — Documentation foundation
+## Batch B — Service foundation
 
 - [x] Replace the collector-only README identity with TODS Gateway identity while preserving collector operations.
 - [x] Create the canonical TODS architecture record.
@@ -35,6 +35,10 @@ This list controls the transition from the original collector-focused repository
 - [x] Create an API deployment register based on executable routes.
 - [x] Move detailed collector operation guidance into an operations document.
 - [x] Document data governance, lifecycle, implemented schema families, and reconciliation gates.
+- [x] Build a responsive enterprise assurance console against the real gateway API.
+- [x] Add machine-readable service status and per-request correlation IDs.
+- [x] Add a non-root container, Compose service, and health check.
+- [x] Add an enterprise-console runbook and service-readiness assessment.
 - [ ] Review and align `SKBUK_ARCHITECTURE.md` with implemented package boundaries.
 - [ ] Reconcile the Markdown and PDF MOUUK catalogue; Markdown remains the editable source.
 
@@ -56,26 +60,28 @@ This list controls the transition from the original collector-focused repository
 
 - [x] Add documentation-governance and route-inventory tests.
 - [x] Add configuration-precedence and MOUUK compatibility tests.
-- [ ] Run the complete test suite in CI.
-- [ ] Resolve failures without weakening architecture, provenance, or evidence assertions.
-- [ ] Check internal Markdown links.
-- [ ] Scan changed content for secrets.
+- [x] Run the complete test suite in a clean checkout: 67 passed.
+- [x] Run a live local smoke test for the UI, status API, assessment API, and correlation ID.
+- [x] Check internal links across 194 Markdown files: no broken local links.
+- [x] Add CI jobs for the complete test suite and container smoke test.
+- [ ] Confirm the GitHub-hosted CI run and resolve any platform-specific failure.
+- [ ] Run repository secret scanning when GitHub Advanced Security is enabled or through an approved alternative scanner.
 - [x] Open a draft pull request.
 - [ ] Review the final diff before marking the pull request ready.
 
-## Deferred implementation
+## Deferred production controls
 
-These items are not represented as complete in this baseline:
+These items are not represented as complete in this service baseline:
 
 - production authentication and scoped authorization;
 - durable audit-event storage;
 - signed evidence and assurance receipts;
 - policy/rule-pack lifecycle management;
 - complete gateway routing across all 34 MOUUK modules;
-- human approval workflow;
+- durable human approval workflow;
 - production SDK and CLI;
 - hosted-service deployment and operational certification.
 
 ## Definition of done
 
-The baseline is done when README and canonical documents agree with executable code, existing tests remain green, new governance tests pass, no secret is introduced, no protected historical/source material is deleted, and a reviewable pull request records all changes.
+The controlled service baseline is complete when the UI and API are executable, repository tests pass, runtime packaging exists, documentation agrees with behavior, no protected historical/source material is deleted, and a reviewable pull request records all changes. Public production readiness additionally requires the deferred controls and service-owner approval.
