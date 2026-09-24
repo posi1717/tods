@@ -24,13 +24,19 @@ A conflict between executable behavior and the intended architecture is a tracke
 | `docs/architecture/TODS_GATEWAY_ARCHITECTURE_RECORD.md` | Canonical | Product identity, trust boundary, components, assurance model |
 | `uk_kb_collector/modules.yaml` | Canonical machine-readable | Stable MOUUK IDs, slugs, names, relationships, kinds |
 | `docs/MOUUK_MODULE_CATALOGUE.md` | Canonical human-readable | Explanatory MOUUK module catalogue; must agree with YAML |
-| `docs/REGISTRY_SCHEMA.md` | Canonical | Registry fields and storage contract |
+| `docs/REGISTRY_SCHEMA.md` | Canonical | File-based registry fields and storage contract |
+| `docs/governance/DATA_GOVERNANCE_AND_LIFECYCLE.md` | Canonical | Database schema status, lineage, access, retention, and reconciliation rules |
+| `docs/governance/CONFIGURATION_PRECEDENCE.md` | Canonical operational | Active collector configuration order and non-runtime reference files |
+| `supabase/migrations/**` | Canonical migration history | Forward-only Supabase deployment history; do not rewrite applied migrations |
 | `docs/operations/API_DEPLOYMENT_REGISTER.md` | Canonical operational | Executable and planned API status |
 | `docs/MASTER_CHANGE_LIST.md` | Active control | Ordered, reversible implementation work |
 | `README.md` | Active entry point | Project overview, current baseline, navigation |
 | `SKBUK_ARCHITECTURE.md` | Active subsystem | SKBUK architecture, pending alignment review |
+| `SKBUK/sql/**` | Active design | SKBUK package schema/storage design; not deployed until promoted through migrations |
 | `docs/operations/COLLECTOR_OPERATIONS.md` | Active operational | Safe collector execution guidance |
 | `docs/MOUUK_MODULE_CATALOGUE.pdf` | Generated/reference | Distribution rendering; Markdown is editable source |
+| `sources.yml` | Proposed/reference | Normalized source registry not loaded by the current collector runtime |
+| `classification.yml` | Proposed/reference | Classification-rule registry not loaded by the current collector runtime |
 | `project_info__*.md` | Pending classification | Historical/working notes until reviewed |
 | `docs/archive/**` | Archive | Historical context only; never current authority |
 

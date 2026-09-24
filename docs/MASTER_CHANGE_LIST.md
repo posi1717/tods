@@ -24,8 +24,8 @@ This list controls the transition from the original collector-focused repository
 - [x] Identify `uk_kb_collector/modules.yaml` as the canonical 34-module catalogue.
 - [x] Confirm architecture/governance tests assert 34 stable and independently loadable modules.
 - [x] Record the gap between the two-route gateway baseline and the wider collector/plugin architecture.
-- [ ] Verify configuration precedence across `config.yaml`, `sources.yml`, `classification.yml`, package settings, and environment variables.
-- [ ] Reconcile the early `MOUUK/mouuk_registry.py` subset with the canonical YAML registry without deleting either path prematurely.
+- [x] Verify configuration precedence across `config.yaml`, `sources.yml`, `classification.yml`, package settings, and environment variables.
+- [x] Reconcile the early `MOUUK/mouuk_registry.py` subset with the canonical YAML registry without deleting either path prematurely.
 
 ## Batch B — Documentation foundation
 
@@ -34,6 +34,7 @@ This list controls the transition from the original collector-focused repository
 - [x] Create the canonical-document register.
 - [x] Create an API deployment register based on executable routes.
 - [x] Move detailed collector operation guidance into an operations document.
+- [x] Document data governance, lifecycle, implemented schema families, and reconciliation gates.
 - [ ] Review and align `SKBUK_ARCHITECTURE.md` with implemented package boundaries.
 - [ ] Reconcile the Markdown and PDF MOUUK catalogue; Markdown remains the editable source.
 
@@ -54,11 +55,13 @@ This list controls the transition from the original collector-focused repository
 ## Batch E — Verification
 
 - [x] Add documentation-governance and route-inventory tests.
+- [x] Add configuration-precedence and MOUUK compatibility tests.
 - [ ] Run the complete test suite in CI.
 - [ ] Resolve failures without weakening architecture, provenance, or evidence assertions.
 - [ ] Check internal Markdown links.
 - [ ] Scan changed content for secrets.
-- [ ] Review the final diff and open a draft pull request.
+- [x] Open a draft pull request.
+- [ ] Review the final diff before marking the pull request ready.
 
 ## Deferred implementation
 
