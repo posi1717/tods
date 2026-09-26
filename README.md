@@ -4,6 +4,26 @@
 
 TODS is designed to be direct about evidence. It distinguishes sourced facts from interpretation, exposes uncertainty and limitations, retains provenance, and requires human review when the available evidence cannot support a dependable answer.
 
+## Public-procurement focus
+
+TODS is focused initially on **trusted, evidence-based, and regulation-compliant documentation for public procurement**. Public procurement is more than an administrative process: it is one of the principal mechanisms through which governments invest public money, deliver essential services, build infrastructure, support markets, and pursue economic, environmental, and social outcomes.
+
+London provides an unusually valuable real-world learning environment. Its public-service landscape brings together the Greater London Authority, 32 London boroughs, the City of London Corporation, Transport for London, NHS bodies, social and community housing providers, Net Zero programmes, and UK Government requirements. These institutions have different mandates, policies, procurement duties, and accountability structures, yet often need to work together for the same city and communities.
+
+This environment has made the core problem clear: the challenge is not simply to produce more documents or introduce more AI. Important public-procurement documents must be trustworthy. Their sources should be authoritative, their evidence traceable, their regulatory context understood, their versions current, their limitations visible, and their final use accountable to a responsible person.
+
+TODS is therefore being developed as an evidence-first assurance layer for public-procurement documents and regulated public-sector information. The aim is to give people, public organisations, digital services, and AI agents a common controlled process for checking provenance, applicable rules, document integrity, scope, uncertainty, and review requirements before information is relied upon.
+
+## Trust in the AI era
+
+Every country must consider how to preserve public trust as AI becomes involved in preparing, interpreting, and reviewing documents connected to public expenditure. If trustworthy, evidence-linked, and human-accountable documentation becomes part of the emerging global standard for public procurement in the AI era, TODS seeks to make a small but meaningful contribution to shaping that standard and the relationship of trust between technology, government, and people.
+
+This work should not be developed in isolation. We welcome direct guidance and constructive challenge from specialists in public procurement, regulation, government documentation, AI governance, public administration, assurance, security, and responsible technology. Expert scrutiny can help test assumptions, identify missing safeguards, and ensure that the system develops in a genuinely useful and responsible direction.
+
+We also welcome introductions to public bodies, research institutions, responsible technology partners, funders, and other supporters who share this purpose. Such connections could create opportunities to validate the approach, conduct carefully governed pilot projects, and determine where TODS can deliver measurable public value.
+
+References to London institutions describe the regulatory and operational context from which the project learns; they do not imply endorsement, partnership, deployment, or approval by any named organisation.
+
 ## Enterprise console
 
 The repository includes a responsive enterprise assurance console backed by the executable FastAPI service.
